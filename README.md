@@ -1,4 +1,4 @@
-# 🍽️ FeastFlow — Food Ordering Web Application
+# 🍽️ RoadKitchen — Food Ordering Web Application
 
 > A complete, production-ready food ordering SPA built in vanilla HTML/CSS/JavaScript.  
 > No frameworks. No build tools. Just open `index.html` and go.
@@ -35,7 +35,7 @@
 
 ### Admin Login
 - **URL path:** Click "Admin login →" on the Login page
-- **Email:** `admin@feastflow.com`
+- **Email:** `admin@RoadKitchen.com`
 - **Password:** `admin123`
 
 ### Customer Login
@@ -176,4 +176,4 @@ The Java (Servlet/JSP) + MySQL backend from the SRS would slot in here.
 
 ---
 
-*Built for CSE Mini-Project / Final Year Project — FeastFlow © 2025*
+*Built for CSE Mini-Project / Final Year Project — RoadKitchen © 2025*
