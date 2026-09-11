@@ -4,9 +4,10 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>RoadKitchen — Food Ordering</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+
 <style>
-/* ─── TOKENS ─────────────────────────────────────── */
 :root{
   --charcoal:#1a1a2e;
   --charcoal-light:#252540;
@@ -24,1544 +25,6519 @@
   --shadow-lg:0 16px 56px rgba(26,26,46,.2);
   --transition:.22s cubic-bezier(.4,0,.2,1);
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--text-main);min-height:100vh;overflow-x:hidden}
 
-/* ─── SCROLLBAR ──────────────────────────────────── */
-::-webkit-scrollbar{width:6px}
-::-webkit-scrollbar-track{background:var(--cream)}
-::-webkit-scrollbar-thumb{background:var(--saffron);border-radius:3px}
+*,*::before,*::after{
+  box-sizing:border-box;
+  margin:0;
+  padding:0
+}
 
-/* ─── TYPOGRAPHY ─────────────────────────────────── */
-h1,h2,h3,.brand{font-family:'Playfair Display',serif}
-.brand{font-size:1.6rem;font-weight:900;color:var(--saffron);letter-spacing:-.5px}
-.brand span{color:var(--terra)}
+html{
+  scroll-behavior:smooth
+}
 
-/* ─── LAYOUT ─────────────────────────────────────── */
-.page{display:none;min-height:100vh}
-.page.active{display:block}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--cream);
+  color:var(--text-main);
+  min-height:100vh;
+  overflow-x:hidden
+}
 
-/* ─── NAVBAR ─────────────────────────────────────── */
+::-webkit-scrollbar{
+  width:6px
+}
+
+::-webkit-scrollbar-track{
+  background:var(--cream)
+}
+
+::-webkit-scrollbar-thumb{
+  background:var(--saffron);
+  border-radius:3px
+}
+
+h1,h2,h3,.brand{
+  font-family:'Playfair Display',serif
+}
+
+.brand{
+  font-size:1.6rem;
+  font-weight:900;
+  color:var(--saffron);
+  letter-spacing:-.5px
+}
+
+.brand span{
+  color:var(--terra)
+}
+
+.page{
+  display:none;
+  min-height:100vh
+}
+
+.page.active{
+  display:block
+}
+
+/* NAVBAR */
+
 nav{
-  position:fixed;top:0;left:0;right:0;z-index:900;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:900;
   background:rgba(26,26,46,.97);
   backdrop-filter:blur(12px);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 2rem;height:64px;
-  border-bottom:1px solid rgba(245,166,35,.15);
-}
-.nav-links{display:flex;gap:1.5rem;align-items:center}
-.nav-links a,.nav-links button{
-  color:rgba(255,255,255,.75);text-decoration:none;font-size:.9rem;font-weight:500;
-  background:none;border:none;cursor:pointer;transition:color var(--transition);padding:4px 0;
-}
-.nav-links a:hover,.nav-links button:hover,.nav-links a.active{color:var(--saffron)}
-.cart-btn{
-  position:relative;background:var(--saffron)!important;color:var(--charcoal)!important;
-  padding:8px 18px!important;border-radius:50px!important;font-weight:700!important;
-  font-size:.85rem!important;display:flex;align-items:center;gap:6px;
-  transition:background var(--transition),transform var(--transition)!important;
-}
-.cart-btn:hover{background:var(--saffron-dark)!important;transform:scale(1.04)}
-.cart-count{
-  position:absolute;top:-6px;right:-6px;background:var(--terra);color:#fff;
-  font-size:.65rem;font-weight:700;width:18px;height:18px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-}
-
-/* ─── HERO ───────────────────────────────────────── */
-.hero{
-  min-height:100vh;background:var(--charcoal);
-  display:flex;align-items:center;justify-content:center;
-  position:relative;overflow:hidden;padding-top:64px;
-}
-.hero-bg{
-  position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 60% 50% at 80% 50%,rgba(245,166,35,.12) 0%,transparent 70%),
-    radial-gradient(ellipse 40% 60% at 20% 80%,rgba(232,103,74,.1) 0%,transparent 60%);
-}
-.hero-content{position:relative;z-index:1;text-align:center;max-width:720px;padding:2rem}
-.hero-eyebrow{
-  display:inline-block;font-size:.8rem;font-weight:600;letter-spacing:2px;
-  text-transform:uppercase;color:var(--saffron);margin-bottom:1.5rem;
-  border:1px solid rgba(245,166,35,.4);padding:6px 16px;border-radius:50px;
-}
-.hero h1{
-  font-size:clamp(2.8rem,7vw,5rem);font-weight:900;line-height:1.05;
-  color:var(--white);margin-bottom:1.5rem;
-}
-.hero h1 em{color:var(--saffron);font-style:normal}
-.hero p{color:rgba(255,255,255,.65);font-size:1.15rem;line-height:1.7;margin-bottom:2.5rem}
-.hero-cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-.btn-primary{
-  background:var(--saffron);color:var(--charcoal);font-weight:700;font-size:.95rem;
-  padding:14px 32px;border-radius:50px;border:none;cursor:pointer;
-  transition:all var(--transition);text-decoration:none;display:inline-flex;align-items:center;gap:8px;
-}
-.btn-primary:hover{background:var(--saffron-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(245,166,35,.4)}
-.btn-outline{
-  background:transparent;color:var(--white);font-weight:600;font-size:.95rem;
-  padding:14px 32px;border-radius:50px;border:1.5px solid rgba(255,255,255,.35);cursor:pointer;
-  transition:all var(--transition);text-decoration:none;
-}
-.btn-outline:hover{border-color:var(--white);background:rgba(255,255,255,.08)}
-
-/* floating food icons */
-.float-icons{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.float-icon{
-  position:absolute;font-size:2.5rem;opacity:.15;animation:floatUp 8s infinite linear;
-}
-@keyframes floatUp{
-  0%{transform:translateY(110vh) rotate(0deg);opacity:0}
-  10%{opacity:.15}
-  90%{opacity:.15}
-  100%{transform:translateY(-10vh) rotate(360deg);opacity:0}
-}
-
-/* ─── SECTION SHELL ──────────────────────────────── */
-.section{padding:5rem 2rem}
-.section-inner{max-width:1200px;margin:0 auto}
-.section-header{text-align:center;margin-bottom:3rem}
-.section-header h2{font-size:2.4rem;font-weight:700;margin-bottom:.75rem;color:var(--charcoal)}
-.section-header p{color:var(--text-muted);font-size:1.05rem;max-width:520px;margin:0 auto}
-.eyebrow{font-size:.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--saffron);margin-bottom:.5rem}
-
-/* ─── CATEGORY TABS ──────────────────────────────── */
-.cat-tabs{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center;margin-bottom:2.5rem}
-.cat-tab{
-  padding:8px 22px;border-radius:50px;border:1.5px solid var(--cream-dark);
-  background:var(--white);cursor:pointer;font-size:.88rem;font-weight:600;
-  color:var(--text-muted);transition:all var(--transition);
-}
-.cat-tab:hover,.cat-tab.active{
-  background:var(--saffron);color:var(--charcoal);border-color:var(--saffron);
-}
-
-/* ─── MENU GRID ──────────────────────────────────── */
-.menu-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.75rem;
-}
-.food-card{
-  background:var(--white);border-radius:var(--radius);overflow:hidden;
-  box-shadow:var(--shadow);transition:transform var(--transition),box-shadow var(--transition);
-  cursor:pointer;
-}
-.food-card:hover{transform:translateY(-6px) scale(1.01);box-shadow:var(--shadow-lg)}
-.food-card-img{
-  width:100%;height:200px;object-fit:cover;background:var(--cream-dark);
-  display:flex;align-items:center;justify-content:center;font-size:5rem;
-  transition:transform var(--transition);
-}
-.food-card:hover .food-card-img{transform:scale(1.06)}
-.food-card-body{padding:1.25rem}
-.food-badge{
-  display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:1px;
-  text-transform:uppercase;padding:3px 10px;border-radius:50px;margin-bottom:.6rem;
-}
-.badge-veg{background:#d4edda;color:#155724}
-.badge-nonveg{background:#f8d7da;color:#721c24}
-.badge-special{background:#fff3cd;color:#856404}
-.food-card h3{font-size:1.1rem;font-weight:700;margin-bottom:.4rem;color:var(--charcoal)}
-.food-card p{font-size:.85rem;color:var(--text-muted);line-height:1.5;margin-bottom:1rem}
-.food-card-footer{display:flex;align-items:center;justify-content:space-between}
-.food-price{font-size:1.25rem;font-weight:700;color:var(--terra)}
-.add-btn{
-  background:var(--charcoal);color:var(--white);border:none;
-  border-radius:50px;padding:8px 18px;font-size:.85rem;font-weight:600;cursor:pointer;
-  transition:all var(--transition);display:flex;align-items:center;gap:5px;
-}
-.add-btn:hover{background:var(--saffron);color:var(--charcoal)}
-
-/* ─── CART SIDEBAR ───────────────────────────────── */
-.cart-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;
-  opacity:0;pointer-events:none;transition:opacity var(--transition);
-}
-.cart-overlay.open{opacity:1;pointer-events:all}
-.cart-sidebar{
-  position:fixed;top:0;right:0;width:min(420px,100vw);height:100vh;
-  background:var(--white);z-index:1000;box-shadow:var(--shadow-lg);
-  transform:translateX(100%);transition:transform var(--transition);
-  display:flex;flex-direction:column;
-}
-.cart-sidebar.open{transform:translateX(0)}
-.cart-header{
-  padding:1.5rem;border-bottom:1px solid var(--cream-dark);
-  display:flex;align-items:center;justify-content:space-between;background:var(--charcoal);
-}
-.cart-header h3{color:var(--white);font-size:1.2rem}
-.cart-close{
-  background:rgba(255,255,255,.1);border:none;color:var(--white);
-  width:36px;height:36px;border-radius:50%;font-size:1.2rem;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;transition:background var(--transition);
-}
-.cart-close:hover{background:rgba(255,255,255,.2)}
-.cart-items{flex:1;overflow-y:auto;padding:1.25rem}
-.cart-empty{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  height:100%;gap:1rem;color:var(--text-muted);
-}
-.cart-empty .icon{font-size:4rem}
-.cart-item{
-  display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--cream-dark);
+  display:flex;
   align-items:center;
+  justify-content:space-between;
+  padding:0 2rem;
+  height:64px;
+  border-bottom:1px solid rgba(245,166,35,.15)
 }
-.cart-item-icon{font-size:2.5rem;width:56px;text-align:center}
-.cart-item-info{flex:1}
-.cart-item-info h4{font-size:.95rem;font-weight:600;margin-bottom:.25rem}
-.cart-item-info span{font-size:.85rem;color:var(--terra);font-weight:600}
-.qty-controls{display:flex;align-items:center;gap:.5rem;margin-top:.5rem}
-.qty-btn{
-  width:28px;height:28px;border-radius:50%;border:1.5px solid var(--cream-dark);
-  background:none;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;
-  transition:all var(--transition);font-weight:600;
+
+.nav-links{
+  display:flex;
+  gap:1.5rem;
+  align-items:center
 }
-.qty-btn:hover{background:var(--saffron);border-color:var(--saffron)}
-.qty-num{font-size:.9rem;font-weight:600;min-width:20px;text-align:center}
-.remove-item{
-  background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.1rem;
-  padding:4px;border-radius:4px;transition:color var(--transition);
+
+.nav-links a,
+.nav-links button{
+  color:rgba(255,255,255,.75);
+  text-decoration:none;
+  font-size:.9rem;
+  font-weight:500;
+  background:none;
+  border:none;
+  cursor:pointer;
+  transition:color var(--transition);
+  padding:4px 0
 }
-.remove-item:hover{color:var(--terra)}
-.cart-footer{
-  padding:1.5rem;border-top:1px solid var(--cream-dark);background:var(--cream);
+
+.nav-links a:hover,
+.nav-links button:hover,
+.nav-links a.active{
+  color:var(--saffron)
 }
-.cart-subtotal{display:flex;justify-content:space-between;font-size:1rem;margin-bottom:.5rem}
-.cart-subtotal.total{font-weight:700;font-size:1.15rem;color:var(--charcoal);margin-top:.75rem;padding-top:.75rem;border-top:2px solid var(--cream-dark)}
-.checkout-btn{
-  width:100%;margin-top:1rem;padding:14px;background:var(--saffron);color:var(--charcoal);
-  border:none;border-radius:var(--radius);font-size:1rem;font-weight:700;cursor:pointer;
+
+.cart-btn{
+  position:relative;
+  background:var(--saffron)!important;
+  color:var(--charcoal)!important;
+  padding:8px 18px!important;
+  border-radius:50px!important;
+  font-weight:700!important;
+  font-size:.85rem!important;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  transition:background var(--transition),transform var(--transition)!important
+}
+
+.cart-btn:hover{
+  background:var(--saffron-dark)!important;
+  transform:scale(1.04)
+}
+
+.cart-count{
+  position:absolute;
+  top:-6px;
+  right:-6px;
+  background:var(--terra);
+  color:#fff;
+  font-size:.65rem;
+  font-weight:700;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center
+}
+
+/* HERO */
+
+.hero{
+  min-height:100vh;
+  background:var(--charcoal);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+  padding-top:64px
+}
+
+.hero-bg{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(
+      ellipse 60% 50% at 80% 50%,
+      rgba(245,166,35,.12) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 40% 60% at 20% 80%,
+      rgba(232,103,74,.1) 0%,
+      transparent 60%
+    )
+}
+
+.hero-content{
+  position:relative;
+  z-index:1;
+  text-align:center;
+  max-width:720px;
+  padding:2rem
+}
+
+.hero-eyebrow{
+  display:inline-block;
+  font-size:.8rem;
+  font-weight:600;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--saffron);
+  margin-bottom:1.5rem;
+  border:1px solid rgba(245,166,35,.4);
+  padding:6px 16px;
+  border-radius:50px
+}
+
+.hero h1{
+  font-size:clamp(2.8rem,7vw,5rem);
+  font-weight:900;
+  line-height:1.05;
+  color:var(--white);
+  margin-bottom:1.5rem
+}
+
+.hero h1 em{
+  color:var(--saffron);
+  font-style:normal
+}
+
+.hero p{
+  color:rgba(255,255,255,.65);
+  font-size:1.15rem;
+  line-height:1.7;
+  margin-bottom:2.5rem
+}
+
+.hero-cta{
+  display:flex;
+  gap:1rem;
+  justify-content:center;
+  flex-wrap:wrap
+}
+
+.btn-primary{
+  background:var(--saffron);
+  color:var(--charcoal);
+  font-weight:700;
+  font-size:.95rem;
+  padding:14px 32px;
+  border-radius:50px;
+  border:none;
+  cursor:pointer;
   transition:all var(--transition);
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:8px
 }
-.checkout-btn:hover{background:var(--saffron-dark)}
-.checkout-btn:disabled{background:var(--cream-dark);color:var(--text-muted);cursor:not-allowed}
 
-/* ─── AUTH PAGES ─────────────────────────────────── */
-.auth-page{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:var(--charcoal);padding:2rem;padding-top:80px;
+.btn-primary:hover{
+  background:var(--saffron-dark);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(245,166,35,.4)
 }
-.auth-card{
-  background:var(--white);border-radius:20px;padding:2.5rem;width:100%;max-width:440px;
+
+.btn-outline{
+  background:transparent;
+  color:var(--white);
+  font-weight:600;
+  font-size:.95rem;
+  padding:14px 32px;
+  border-radius:50px;
+  border:1.5px solid rgba(255,255,255,.35);
+  cursor:pointer;
+  transition:all var(--transition);
+  text-decoration:none
+}
+
+.btn-outline:hover{
+  border-color:var(--white);
+  background:rgba(255,255,255,.08)
+}
+
+.float-icons{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden
+}
+
+.float-icon{
+  position:absolute;
+  font-size:2.5rem;
+  opacity:.15;
+  animation:floatUp 8s infinite linear
+}
+
+@keyframes floatUp{
+  0%{
+    transform:translateY(110vh) rotate(0deg);
+    opacity:0
+  }
+  10%{
+    opacity:.15
+  }
+  90%{
+    opacity:.15
+  }
+  100%{
+    transform:translateY(-10vh) rotate(360deg);
+    opacity:0
+  }
+}
+
+/* SECTION */
+
+.section{
+  padding:5rem 2rem
+}
+
+.section-inner{
+  max-width:1200px;
+  margin:0 auto
+}
+
+.section-header{
+  text-align:center;
+  margin-bottom:3rem
+}
+
+.section-header h2{
+  font-size:2.4rem;
+  font-weight:700;
+  margin-bottom:.75rem;
+  color:var(--charcoal)
+}
+
+.section-header p{
+  color:var(--text-muted);
+  font-size:1.05rem;
+  max-width:520px;
+  margin:0 auto
+}
+
+.eyebrow{
+  font-size:.75rem;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--saffron);
+  margin-bottom:.5rem
+}
+
+/* CATEGORY */
+
+.cat-tabs{
+  display:flex;
+  gap:.75rem;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-bottom:2.5rem
+}
+
+.cat-tab{
+  padding:8px 22px;
+  border-radius:50px;
+  border:1.5px solid var(--cream-dark);
+  background:var(--white);
+  cursor:pointer;
+  font-size:.88rem;
+  font-weight:600;
+  color:var(--text-muted);
+  transition:all var(--transition)
+}
+
+.cat-tab:hover,
+.cat-tab.active{
+  background:var(--saffron);
+  color:var(--charcoal);
+  border-color:var(--saffron)
+}
+
+/* MENU */
+
+.menu-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:1.75rem
+}
+
+.food-card{
+  background:var(--white);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  transition:transform var(--transition),box-shadow var(--transition);
+  cursor:pointer
+}
+
+.food-card:hover{
+  transform:translateY(-6px) scale(1.01);
+  box-shadow:var(--shadow-lg)
+}
+
+.food-card-img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  background:var(--cream-dark);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:5rem;
+  transition:transform var(--transition)
+}
+
+.food-card:hover .food-card-img{
+  transform:scale(1.06)
+}
+
+.food-card-body{
+  padding:1.25rem
+}
+
+.food-badge{
+  display:inline-block;
+  font-size:.7rem;
+  font-weight:700;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  padding:3px 10px;
+  border-radius:50px;
+  margin-bottom:.6rem
+}
+
+.badge-veg{
+  background:#d4edda;
+  color:#155724
+}
+
+.badge-nonveg{
+  background:#f8d7da;
+  color:#721c24
+}
+
+.badge-special{
+  background:#fff3cd;
+  color:#856404
+}
+
+.food-card h3{
+  font-size:1.1rem;
+  font-weight:700;
+  margin-bottom:.4rem;
+  color:var(--charcoal)
+}
+
+.food-card p{
+  font-size:.85rem;
+  color:var(--text-muted);
+  line-height:1.5;
+  margin-bottom:1rem
+}
+
+.food-card-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between
+}
+
+.food-price{
+  font-size:1.25rem;
+  font-weight:700;
+  color:var(--terra)
+}
+
+.add-btn{
+  background:var(--charcoal);
+  color:var(--white);
+  border:none;
+  border-radius:50px;
+  padding:8px 18px;
+  font-size:.85rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:all var(--transition);
+  display:flex;
+  align-items:center;
+  gap:5px
+}
+
+.add-btn:hover{
+  background:var(--saffron);
+  color:var(--charcoal)
+}
+
+/* CART */
+
+.cart-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.5);
+  z-index:999;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity var(--transition)
+}
+
+.cart-overlay.open{
+  opacity:1;
+  pointer-events:all
+}
+
+.cart-sidebar{
+  position:fixed;
+  top:0;
+  right:0;
+  width:min(420px,100vw);
+  height:100vh;
+  background:var(--white);
+  z-index:1000;
   box-shadow:var(--shadow-lg);
+  transform:translateX(100%);
+  transition:transform var(--transition);
+  display:flex;
+  flex-direction:column
 }
-.auth-card h2{font-size:2rem;margin-bottom:.5rem}
-.auth-card p{color:var(--text-muted);margin-bottom:2rem}
-.form-group{margin-bottom:1.25rem}
-.form-group label{display:block;font-size:.85rem;font-weight:600;margin-bottom:.4rem;color:var(--charcoal)}
-.form-group input,.form-group select,.form-group textarea{
-  width:100%;padding:12px 16px;border:1.5px solid var(--cream-dark);border-radius:var(--radius);
-  font-size:.95rem;font-family:inherit;outline:none;transition:border-color var(--transition);
-  background:var(--cream);
-}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--saffron);background:var(--white)}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.form-submit{
-  width:100%;padding:14px;background:var(--saffron);color:var(--charcoal);
-  border:none;border-radius:var(--radius);font-size:1rem;font-weight:700;cursor:pointer;
-  transition:all var(--transition);margin-top:.5rem;
-}
-.form-submit:hover{background:var(--saffron-dark);transform:translateY(-1px)}
-.auth-switch{text-align:center;margin-top:1.25rem;font-size:.9rem;color:var(--text-muted)}
-.auth-switch a{color:var(--saffron);font-weight:600;cursor:pointer;text-decoration:none}
-.form-error{color:var(--terra);font-size:.82rem;margin-top:.3rem}
-.alert{
-  padding:12px 16px;border-radius:var(--radius);margin-bottom:1rem;font-size:.9rem;font-weight:500;
-}
-.alert-success{background:#d4edda;color:#155724;border:1px solid #c3e6cb}
-.alert-error{background:#f8d7da;color:#721c24;border:1px solid #f5c6cb}
-.alert-info{background:#d1ecf1;color:#0c5460;border:1px solid #bee5eb}
 
-/* ─── CHECKOUT ───────────────────────────────────── */
-.checkout-page{padding-top:80px;min-height:100vh;background:var(--cream)}
-.checkout-grid{display:grid;grid-template-columns:1fr 380px;gap:2rem;max-width:1100px;margin:0 auto;padding:2rem}
-.checkout-section{background:var(--white);border-radius:var(--radius);padding:1.75rem;box-shadow:var(--shadow);margin-bottom:1.5rem}
-.checkout-section h3{font-size:1.2rem;margin-bottom:1.5rem;padding-bottom:.75rem;border-bottom:1px solid var(--cream-dark)}
-.payment-methods{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.5rem}
-.pay-method{
-  border:2px solid var(--cream-dark);border-radius:var(--radius);padding:1rem;
-  text-align:center;cursor:pointer;transition:all var(--transition);
+.cart-sidebar.open{
+  transform:translateX(0)
 }
-.pay-method:hover,.pay-method.active{border-color:var(--saffron);background:#fffbf0}
-.pay-method .icon{font-size:1.75rem;display:block;margin-bottom:.4rem}
-.pay-method span{font-size:.8rem;font-weight:600;color:var(--text-muted)}
-.order-summary-card{background:var(--white);border-radius:var(--radius);padding:1.75rem;box-shadow:var(--shadow);position:sticky;top:80px}
-.summary-item{display:flex;justify-content:space-between;padding:.5rem 0;font-size:.9rem;border-bottom:1px solid var(--cream-dark)}
-.summary-item:last-of-type{border-bottom:none}
-.summary-total{display:flex;justify-content:space-between;padding-top:1rem;font-weight:700;font-size:1.1rem;border-top:2px solid var(--charcoal)}
-.place-order-btn{
-  width:100%;margin-top:1.25rem;padding:16px;background:var(--terra);color:var(--white);
-  border:none;border-radius:var(--radius);font-size:1.05rem;font-weight:700;cursor:pointer;
-  transition:all var(--transition);letter-spacing:.3px;
-}
-.place-order-btn:hover{background:#c95538;transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,103,74,.35)}
 
-/* ─── ORDER SUCCESS ──────────────────────────────── */
-.success-page{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:var(--charcoal);padding-top:64px;
-}
-.success-card{
-  background:var(--white);border-radius:20px;padding:3rem 2.5rem;max-width:520px;width:100%;
-  text-align:center;box-shadow:var(--shadow-lg);
-}
-.success-icon{font-size:5rem;display:block;margin-bottom:1rem;animation:bounce .6s ease}
-@keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
-.success-card h2{font-size:2rem;color:var(--charcoal);margin-bottom:.75rem}
-.success-card p{color:var(--text-muted);line-height:1.7;margin-bottom:.5rem}
-.order-id{
-  background:var(--cream);border-radius:var(--radius);padding:1rem;
-  font-family:monospace;font-size:1.1rem;font-weight:700;color:var(--charcoal);
-  letter-spacing:1px;margin:1.5rem 0;
-}
-.track-steps{margin:1.5rem 0;text-align:left}
-.track-step{
-  display:flex;align-items:center;gap:1rem;padding:.75rem 0;
+.cart-header{
+  padding:1.5rem;
   border-bottom:1px solid var(--cream-dark);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--charcoal)
 }
-.track-step:last-child{border-bottom:none}
+
+.cart-header h3{
+  color:var(--white);
+  font-size:1.2rem
+}
+
+.cart-close{
+  background:rgba(255,255,255,.1);
+  border:none;
+  color:var(--white);
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  font-size:1.2rem;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:background var(--transition)
+}
+
+.cart-close:hover{
+  background:rgba(255,255,255,.2)
+}
+
+.cart-items{
+  flex:1;
+  overflow-y:auto;
+  padding:1.25rem
+}
+
+.cart-empty{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  height:100%;
+  gap:1rem;
+  color:var(--text-muted)
+}
+
+.cart-empty .icon{
+  font-size:4rem
+}
+
+.cart-item{
+  display:flex;
+  gap:1rem;
+  padding:1rem 0;
+  border-bottom:1px solid var(--cream-dark);
+  align-items:center
+}
+
+.cart-item-icon{
+  font-size:2.5rem;
+  width:56px;
+  text-align:center
+}
+
+.cart-item-info{
+  flex:1
+}
+
+.cart-item-info h4{
+  font-size:.95rem;
+  font-weight:600;
+  margin-bottom:.25rem
+}
+
+.cart-item-info span{
+  font-size:.85rem;
+  color:var(--terra);
+  font-weight:600
+}
+
+.qty-controls{
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+  margin-top:.5rem
+}
+
+.qty-btn{
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  border:1.5px solid var(--cream-dark);
+  background:none;
+  font-size:1rem;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:all var(--transition);
+  font-weight:600
+}
+
+.qty-btn:hover{
+  background:var(--saffron);
+  border-color:var(--saffron)
+}
+
+.qty-num{
+  font-size:.9rem;
+  font-weight:600;
+  min-width:20px;
+  text-align:center
+}
+
+.remove-item{
+  background:none;
+  border:none;
+  color:var(--text-muted);
+  cursor:pointer;
+  font-size:1.1rem;
+  padding:4px;
+  border-radius:4px;
+  transition:color var(--transition)
+}
+
+.remove-item:hover{
+  color:var(--terra)
+}
+
+.cart-footer{
+  padding:1.5rem;
+  border-top:1px solid var(--cream-dark);
+  background:var(--cream)
+}
+
+.cart-subtotal{
+  display:flex;
+  justify-content:space-between;
+  font-size:1rem;
+  margin-bottom:.5rem
+}
+
+.cart-subtotal.total{
+  font-weight:700;
+  font-size:1.15rem;
+  color:var(--charcoal);
+  margin-top:.75rem;
+  padding-top:.75rem;
+  border-top:2px solid var(--cream-dark)
+}
+
+.checkout-btn{
+  width:100%;
+  margin-top:1rem;
+  padding:14px;
+  background:var(--saffron);
+  color:var(--charcoal);
+  border:none;
+  border-radius:var(--radius);
+  font-size:1rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:all var(--transition)
+}
+
+.checkout-btn:hover{
+  background:var(--saffron-dark)
+}
+
+.checkout-btn:disabled{
+  background:var(--cream-dark);
+  color:var(--text-muted);
+  cursor:not-allowed
+}
+
+/* AUTH */
+
+.auth-page{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--charcoal);
+  padding:2rem;
+  padding-top:80px
+}
+
+.auth-card{
+  background:var(--white);
+  border-radius:20px;
+  padding:2.5rem;
+  width:100%;
+  max-width:440px;
+  box-shadow:var(--shadow-lg)
+}
+
+.auth-card h2{
+  font-size:2rem;
+  margin-bottom:.5rem
+}
+
+.auth-card p{
+  color:var(--text-muted);
+  margin-bottom:2rem
+}
+
+.form-group{
+  margin-bottom:1.25rem
+}
+
+.form-group label{
+  display:block;
+  font-size:.85rem;
+  font-weight:600;
+  margin-bottom:.4rem;
+  color:var(--charcoal)
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+  width:100%;
+  padding:12px 16px;
+  border:1.5px solid var(--cream-dark);
+  border-radius:var(--radius);
+  font-size:.95rem;
+  font-family:inherit;
+  outline:none;
+  transition:border-color var(--transition);
+  background:var(--cream)
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+  border-color:var(--saffron);
+  background:var(--white)
+}
+
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1rem
+}
+
+.form-submit{
+  width:100%;
+  padding:14px;
+  background:var(--saffron);
+  color:var(--charcoal);
+  border:none;
+  border-radius:var(--radius);
+  font-size:1rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:all var(--transition);
+  margin-top:.5rem
+}
+
+.form-submit:hover{
+  background:var(--saffron-dark);
+  transform:translateY(-1px)
+}
+
+.auth-switch{
+  text-align:center;
+  margin-top:1.25rem;
+  font-size:.9rem;
+  color:var(--text-muted)
+}
+
+.auth-switch a{
+  color:var(--saffron);
+  font-weight:600;
+  cursor:pointer;
+  text-decoration:none
+}
+
+.form-error{
+  color:var(--terra);
+  font-size:.82rem;
+  margin-top:.3rem
+}
+
+.alert{
+  padding:12px 16px;
+  border-radius:var(--radius);
+  margin-bottom:1rem;
+  font-size:.9rem;
+  font-weight:500
+}
+
+.alert-success{
+  background:#d4edda;
+  color:#155724;
+  border:1px solid #c3e6cb
+}
+
+.alert-error{
+  background:#f8d7da;
+  color:#721c24;
+  border:1px solid #f5c6cb
+}
+
+.alert-info{
+  background:#d1ecf1;
+  color:#0c5460;
+  border:1px solid #bee5eb
+}
+
+/* CHECKOUT */
+
+.checkout-page{
+  padding-top:80px;
+  min-height:100vh;
+  background:var(--cream)
+}
+
+.checkout-grid{
+  display:grid;
+  grid-template-columns:1fr 380px;
+  gap:2rem;
+  max-width:1100px;
+  margin:0 auto;
+  padding:2rem
+}
+
+.checkout-section{
+  background:var(--white);
+  border-radius:var(--radius);
+  padding:1.75rem;
+  box-shadow:var(--shadow);
+  margin-bottom:1.5rem
+}
+
+.checkout-section h3{
+  font-size:1.2rem;
+  margin-bottom:1.5rem;
+  padding-bottom:.75rem;
+  border-bottom:1px solid var(--cream-dark)
+}
+
+.payment-methods{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:.75rem;
+  margin-bottom:1.5rem
+}
+
+.pay-method{
+  border:2px solid var(--cream-dark);
+  border-radius:var(--radius);
+  padding:1rem;
+  text-align:center;
+  cursor:pointer;
+  transition:all var(--transition)
+}
+
+.pay-method:hover,
+.pay-method.active{
+  border-color:var(--saffron);
+  background:#fffbf0
+}
+
+.pay-method .icon{
+  font-size:1.75rem;
+  display:block;
+  margin-bottom:.4rem
+}
+
+.pay-method span{
+  font-size:.8rem;
+  font-weight:600;
+  color:var(--text-muted)
+}
+
+.order-summary-card{
+  background:var(--white);
+  border-radius:var(--radius);
+  padding:1.75rem;
+  box-shadow:var(--shadow);
+  position:sticky;
+  top:80px
+}
+
+.summary-item{
+  display:flex;
+  justify-content:space-between;
+  padding:.5rem 0;
+  font-size:.9rem;
+  border-bottom:1px solid var(--cream-dark)
+}
+
+.summary-item:last-of-type{
+  border-bottom:none
+}
+
+.summary-total{
+  display:flex;
+  justify-content:space-between;
+  padding-top:1rem;
+  font-weight:700;
+  font-size:1.1rem;
+  border-top:2px solid var(--charcoal)
+}
+
+.place-order-btn{
+  width:100%;
+  margin-top:1.25rem;
+  padding:16px;
+  background:var(--terra);
+  color:var(--white);
+  border:none;
+  border-radius:var(--radius);
+  font-size:1.05rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:all var(--transition);
+  letter-spacing:.3px
+}
+
+.place-order-btn:hover{
+  background:#c95538;
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(232,103,74,.35)
+}
+
+/* SUCCESS */
+
+.success-page{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--charcoal);
+  padding-top:64px
+}
+
+.success-card{
+  background:var(--white);
+  border-radius:20px;
+  padding:3rem 2.5rem;
+  max-width:520px;
+  width:100%;
+  text-align:center;
+  box-shadow:var(--shadow-lg)
+}
+
+.success-icon{
+  font-size:5rem;
+  display:block;
+  margin-bottom:1rem;
+  animation:bounce .6s ease
+}
+
+@keyframes bounce{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.2)}
+}
+
+.success-card h2{
+  font-size:2rem;
+  color:var(--charcoal);
+  margin-bottom:.75rem
+}
+
+.success-card p{
+  color:var(--text-muted);
+  line-height:1.7;
+  margin-bottom:.5rem
+}
+
+.order-id{
+  background:var(--cream);
+  border-radius:var(--radius);
+  padding:1rem;
+  font-family:monospace;
+  font-size:1.1rem;
+  font-weight:700;
+  color:var(--charcoal);
+  letter-spacing:1px;
+  margin:1.5rem 0
+}
+
+.track-steps{
+  margin:1.5rem 0;
+  text-align:left
+}
+
+.track-step{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  padding:.75rem 0;
+  border-bottom:1px solid var(--cream-dark)
+}
+
+.track-step:last-child{
+  border-bottom:none
+}
+
 .step-dot{
-  width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  font-size:1rem;flex-shrink:0;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1rem;
+  flex-shrink:0
 }
-.step-dot.done{background:#d4edda;color:#155724}
-.step-dot.active{background:var(--saffron);color:var(--charcoal);animation:pulse 1.5s infinite}
-.step-dot.pending{background:var(--cream-dark);color:var(--text-muted)}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(245,166,35,.4)}50%{box-shadow:0 0 0 8px rgba(245,166,35,0)}}
-.step-info h4{font-size:.9rem;font-weight:600}
-.step-info p{font-size:.8rem;color:var(--text-muted)}
 
-/* ─── ADMIN ──────────────────────────────────────── */
-.admin-page{padding-top:80px;min-height:100vh;background:var(--cream)}
-.admin-layout{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 64px)}
+.step-dot.done{
+  background:#d4edda;
+  color:#155724
+}
+
+.step-dot.active{
+  background:var(--saffron);
+  color:var(--charcoal);
+  animation:pulse 1.5s infinite
+}
+
+.step-dot.pending{
+  background:var(--cream-dark);
+  color:var(--text-muted)
+}
+
+@keyframes pulse{
+  0%,100%{
+    box-shadow:0 0 0 0 rgba(245,166,35,.4)
+  }
+  50%{
+    box-shadow:0 0 0 8px rgba(245,166,35,0)
+  }
+}
+
+.step-info h4{
+  font-size:.9rem;
+  font-weight:600
+}
+
+.step-info p{
+  font-size:.8rem;
+  color:var(--text-muted)
+}
+
+/* ADMIN */
+
+.admin-page{
+  padding-top:80px;
+  min-height:100vh;
+  background:var(--cream)
+}
+
+.admin-layout{
+  display:grid;
+  grid-template-columns:240px 1fr;
+  min-height:calc(100vh - 64px)
+}
+
 .admin-sidebar{
-  background:var(--charcoal);padding:1.5rem 0;position:sticky;top:64px;height:calc(100vh - 64px);overflow-y:auto;
+  background:var(--charcoal);
+  padding:1.5rem 0;
+  position:sticky;
+  top:64px;
+  height:calc(100vh - 64px);
+  overflow-y:auto
 }
-.admin-sidebar h4{color:rgba(255,255,255,.4);font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:0 1.5rem .75rem}
+
+.admin-sidebar h4{
+  color:rgba(255,255,255,.4);
+  font-size:.7rem;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  padding:0 1.5rem .75rem
+}
+
 .admin-nav-item{
-  display:flex;align-items:center;gap:.75rem;padding:.85rem 1.5rem;
-  color:rgba(255,255,255,.6);cursor:pointer;transition:all var(--transition);font-size:.9rem;font-weight:500;
-  border-left:3px solid transparent;
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+  padding:.85rem 1.5rem;
+  color:rgba(255,255,255,.6);
+  cursor:pointer;
+  transition:all var(--transition);
+  font-size:.9rem;
+  font-weight:500;
+  border-left:3px solid transparent
 }
-.admin-nav-item:hover,.admin-nav-item.active{background:rgba(245,166,35,.1);color:var(--saffron);border-left-color:var(--saffron)}
-.admin-nav-item .icon{font-size:1.1rem;width:20px;text-align:center}
-.admin-content{padding:2rem;overflow-x:auto}
-.admin-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem}
-.admin-topbar h2{font-size:1.75rem;color:var(--charcoal)}
-.stat-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.25rem;margin-bottom:2rem}
+
+.admin-nav-item:hover,
+.admin-nav-item.active{
+  background:rgba(245,166,35,.1);
+  color:var(--saffron);
+  border-left-color:var(--saffron)
+}
+
+.admin-nav-item .icon{
+  font-size:1.1rem;
+  width:20px;
+  text-align:center
+}
+
+.admin-content{
+  padding:2rem;
+  overflow-x:auto
+}
+
+.admin-topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:2rem
+}
+
+.admin-topbar h2{
+  font-size:1.75rem;
+  color:var(--charcoal)
+}
+
+.stat-cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:1.25rem;
+  margin-bottom:2rem
+}
+
 .stat-card{
-  background:var(--white);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);
-  border-left:4px solid var(--saffron);
+  background:var(--white);
+  border-radius:var(--radius);
+  padding:1.5rem;
+  box-shadow:var(--shadow);
+  border-left:4px solid var(--saffron)
 }
-.stat-card h3{font-size:2rem;font-weight:700;color:var(--charcoal);margin-bottom:.25rem}
-.stat-card p{font-size:.85rem;color:var(--text-muted)}
-.stat-card.terra{border-left-color:var(--terra)}
-.stat-card.sage{border-left-color:var(--sage)}
-.stat-card.purple{border-left-color:#8b5cf6}
-.admin-table-wrap{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
-.admin-table{width:100%;border-collapse:collapse;font-size:.9rem}
-.admin-table thead{background:var(--charcoal);color:var(--white)}
-.admin-table th{padding:1rem 1.25rem;text-align:left;font-size:.8rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
-.admin-table td{padding:.9rem 1.25rem;border-bottom:1px solid var(--cream-dark)}
-.admin-table tr:last-child td{border-bottom:none}
-.admin-table tr:hover td{background:#fdfaf5}
+
+.stat-card h3{
+  font-size:2rem;
+  font-weight:700;
+  color:var(--charcoal);
+  margin-bottom:.25rem
+}
+
+.stat-card p{
+  font-size:.85rem;
+  color:var(--text-muted)
+}
+
+.stat-card.terra{
+  border-left-color:var(--terra)
+}
+
+.stat-card.sage{
+  border-left-color:var(--sage)
+}
+
+.stat-card.purple{
+  border-left-color:#8b5cf6
+}
+
+.admin-table-wrap{
+  background:var(--white);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden
+}
+
+.admin-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:.9rem
+}
+
+.admin-table thead{
+  background:var(--charcoal);
+  color:var(--white)
+}
+
+.admin-table th{
+  padding:1rem 1.25rem;
+  text-align:left;
+  font-size:.8rem;
+  font-weight:600;
+  letter-spacing:.5px;
+  text-transform:uppercase
+}
+
+.admin-table td{
+  padding:.9rem 1.25rem;
+  border-bottom:1px solid var(--cream-dark)
+}
+
+.admin-table tr:last-child td{
+  border-bottom:none
+}
+
+.admin-table tr:hover td{
+  background:#fdfaf5
+}
+
 .status-badge{
-  padding:3px 12px;border-radius:50px;font-size:.75rem;font-weight:700;display:inline-block;
+  padding:3px 12px;
+  border-radius:50px;
+  font-size:.75rem;
+  font-weight:700;
+  display:inline-block
 }
-.status-pending{background:#fff3cd;color:#856404}
-.status-confirmed{background:#d1ecf1;color:#0c5460}
-.status-preparing{background:#f8d7da;color:#721c24}
-.status-delivered{background:#d4edda;color:#155724}
-.status-cancelled{background:#e2e3e5;color:#383d41}
+
+.status-pending{
+  background:#fff3cd;
+  color:#856404
+}
+
+.status-confirmed{
+  background:#d1ecf1;
+  color:#0c5460
+}
+
+.status-preparing{
+  background:#f8d7da;
+  color:#721c24
+}
+
+.status-delivered{
+  background:#d4edda;
+  color:#155724
+}
+
+.status-cancelled{
+  background:#e2e3e5;
+  color:#383d41
+}
+
 .btn-sm{
-  padding:5px 14px;border-radius:50px;font-size:.78rem;font-weight:600;cursor:pointer;
-  border:none;transition:all var(--transition);
+  padding:5px 14px;
+  border-radius:50px;
+  font-size:.78rem;
+  font-weight:600;
+  cursor:pointer;
+  border:none;
+  transition:all var(--transition)
 }
-.btn-edit{background:#d1ecf1;color:#0c5460}
-.btn-edit:hover{background:#bee5eb}
-.btn-delete{background:#f8d7da;color:#721c24;margin-left:4px}
-.btn-delete:hover{background:#f5c6cb}
+
+.btn-edit{
+  background:#d1ecf1;
+  color:#0c5460
+}
+
+.btn-edit:hover{
+  background:#bee5eb
+}
+
+.btn-delete{
+  background:#f8d7da;
+  color:#721c24;
+  margin-left:4px
+}
+
+.btn-delete:hover{
+  background:#f5c6cb
+}
+
 .btn-add{
-  background:var(--saffron);color:var(--charcoal);padding:10px 22px;border-radius:var(--radius);
-  border:none;font-size:.9rem;font-weight:700;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;gap:6px;
+  background:var(--saffron);
+  color:var(--charcoal);
+  padding:10px 22px;
+  border-radius:var(--radius);
+  border:none;
+  font-size:.9rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:all var(--transition);
+  display:flex;
+  align-items:center;
+  gap:6px
 }
-.btn-add:hover{background:var(--saffron-dark)}
 
-/* ─── MODAL ──────────────────────────────────────── */
+.btn-add:hover{
+  background:var(--saffron-dark)
+}
+
+/* MODAL */
+
 .modal-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1100;
-  display:flex;align-items:center;justify-content:center;padding:1rem;
-  opacity:0;pointer-events:none;transition:opacity var(--transition);
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.5);
+  z-index:1100;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:1rem;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity var(--transition)
 }
-.modal-overlay.open{opacity:1;pointer-events:all}
+
+.modal-overlay.open{
+  opacity:1;
+  pointer-events:all
+}
+
 .modal{
-  background:var(--white);border-radius:20px;padding:2rem;width:100%;max-width:500px;
-  box-shadow:var(--shadow-lg);transform:scale(.95);transition:transform var(--transition);max-height:90vh;overflow-y:auto;
+  background:var(--white);
+  border-radius:20px;
+  padding:2rem;
+  width:100%;
+  max-width:500px;
+  box-shadow:var(--shadow-lg);
+  transform:scale(.95);
+  transition:transform var(--transition);
+  max-height:90vh;
+  overflow-y:auto
 }
-.modal-overlay.open .modal{transform:scale(1)}
-.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
-.modal-header h3{font-size:1.3rem;font-weight:700}
-.modal-close{background:var(--cream);border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1.1rem;transition:background var(--transition)}
-.modal-close:hover{background:var(--cream-dark)}
 
-/* ─── ORDER TRACKING PAGE ─────────────────────────── */
-.tracking-page{padding-top:80px;min-height:100vh;background:var(--cream)}
-.tracking-inner{max-width:800px;margin:0 auto;padding:3rem 2rem}
-.tracking-inner h2{font-size:2rem;margin-bottom:2rem;text-align:center}
+.modal-overlay.open .modal{
+  transform:scale(1)
+}
 
-/* ─── PROFILE PAGE ───────────────────────────────── */
-.profile-page{padding-top:80px;min-height:100vh;background:var(--cream)}
-.profile-inner{max-width:800px;margin:0 auto;padding:3rem 2rem}
+.modal-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:1.5rem
+}
+
+.modal-header h3{
+  font-size:1.3rem;
+  font-weight:700
+}
+
+.modal-close{
+  background:var(--cream);
+  border:none;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  cursor:pointer;
+  font-size:1.1rem;
+  transition:background var(--transition)
+}
+
+.modal-close:hover{
+  background:var(--cream-dark)
+}
+
+/* TRACKING */
+
+.tracking-page{
+  padding-top:80px;
+  min-height:100vh;
+  background:var(--cream)
+}
+
+.tracking-inner{
+  max-width:800px;
+  margin:0 auto;
+  padding:3rem 2rem
+}
+
+.tracking-inner h2{
+  font-size:2rem;
+  margin-bottom:2rem;
+  text-align:center
+}
+
+/* PROFILE */
+
+.profile-page{
+  padding-top:80px;
+  min-height:100vh;
+  background:var(--cream)
+}
+
+.profile-inner{
+  max-width:800px;
+  margin:0 auto;
+  padding:3rem 2rem
+}
+
 .profile-header-card{
-  background:var(--charcoal);border-radius:var(--radius);padding:2rem;
-  display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;color:var(--white);
+  background:var(--charcoal);
+  border-radius:var(--radius);
+  padding:2rem;
+  display:flex;
+  align-items:center;
+  gap:1.5rem;
+  margin-bottom:2rem;
+  color:var(--white)
 }
+
 .profile-avatar{
-  width:72px;height:72px;border-radius:50%;background:var(--saffron);
-  display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;
-  color:var(--charcoal);flex-shrink:0;
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  background:var(--saffron);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:2rem;
+  font-weight:700;
+  color:var(--charcoal);
+  flex-shrink:0
 }
-.profile-header-card h2{font-size:1.5rem;margin-bottom:.25rem}
-.profile-header-card p{color:rgba(255,255,255,.6);font-size:.9rem}
 
-/* ─── TOAST ──────────────────────────────────────── */
-.toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;display:flex;flex-direction:column;gap:.6rem}
+.profile-header-card h2{
+  font-size:1.5rem;
+  margin-bottom:.25rem
+}
+
+.profile-header-card p{
+  color:rgba(255,255,255,.6);
+  font-size:.9rem
+}
+
+/* TOAST */
+
+.toast-container{
+  position:fixed;
+  bottom:1.5rem;
+  right:1.5rem;
+  z-index:9999;
+  display:flex;
+  flex-direction:column;
+  gap:.6rem
+}
+
 .toast{
-  background:var(--charcoal);color:var(--white);padding:12px 20px;border-radius:var(--radius);
-  font-size:.9rem;font-weight:500;box-shadow:var(--shadow-lg);
-  animation:slideIn .3s ease;min-width:240px;display:flex;align-items:center;gap:.75rem;
-  border-left:4px solid var(--saffron);
+  background:var(--charcoal);
+  color:var(--white);
+  padding:12px 20px;
+  border-radius:var(--radius);
+  font-size:.9rem;
+  font-weight:500;
+  box-shadow:var(--shadow-lg);
+  animation:slideIn .3s ease;
+  min-width:240px;
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+  border-left:4px solid var(--saffron)
 }
-.toast.success{border-left-color:#2ecc71}
-.toast.error{border-left-color:var(--terra)}
-@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
 
-/* ─── FOOTER ─────────────────────────────────────── */
+.toast.success{
+  border-left-color:#2ecc71
+}
+
+.toast.error{
+  border-left-color:var(--terra)
+}
+
+@keyframes slideIn{
+  from{
+    transform:translateX(100%);
+    opacity:0
+  }
+  to{
+    transform:translateX(0);
+    opacity:1
+  }
+}
+
+/* FOOTER */
+
 footer{
-  background:var(--charcoal);color:rgba(255,255,255,.5);text-align:center;
-  padding:2rem;font-size:.85rem;
+  background:var(--charcoal);
+  color:rgba(255,255,255,.5);
+  text-align:center;
+  padding:2rem;
+  font-size:.85rem
 }
-footer span{color:var(--saffron)}
 
-/* ─── SEARCH BAR ─────────────────────────────────── */
+footer span{
+  color:var(--saffron)
+}
+
+/* SEARCH */
+
 .search-bar{
-  position:relative;max-width:500px;margin:0 auto 2.5rem;
+  position:relative;
+  max-width:500px;
+  margin:0 auto 2.5rem
 }
-.search-bar input{
-  width:100%;padding:14px 20px 14px 50px;border-radius:50px;border:2px solid var(--cream-dark);
-  font-size:1rem;font-family:inherit;outline:none;transition:border-color var(--transition);background:var(--white);
-}
-.search-bar input:focus{border-color:var(--saffron)}
-.search-icon{position:absolute;left:18px;top:50%;transform:translateY(-50%);font-size:1.2rem;color:var(--text-muted)}
 
-/* ─── RESPONSIVE ─────────────────────────────────── */
-@media(max-width:900px){
-  .checkout-grid{grid-template-columns:1fr}
-  .admin-layout{grid-template-columns:1fr}
-  .admin-sidebar{position:static;height:auto}
+.search-bar input{
+  width:100%;
+  padding:14px 20px 14px 50px;
+  border-radius:50px;
+  border:2px solid var(--cream-dark);
+  font-size:1rem;
+  font-family:inherit;
+  outline:none;
+  transition:border-color var(--transition);
+  background:var(--white)
 }
+
+.search-bar input:focus{
+  border-color:var(--saffron)
+}
+
+.search-icon{
+  position:absolute;
+  left:18px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:1.2rem;
+  color:var(--text-muted)
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+  .checkout-grid{
+    grid-template-columns:1fr
+  }
+
+  .admin-layout{
+    grid-template-columns:1fr
+  }
+
+  .admin-sidebar{
+    position:static;
+    height:auto
+  }
+}
+
 @media(max-width:640px){
-  .nav-links .hide-mobile{display:none}
-  .payment-methods{grid-template-columns:1fr 1fr}
-  .form-row{grid-template-columns:1fr}
-  .stat-cards{grid-template-columns:1fr 1fr}
+
+  .nav-links .hide-mobile{
+    display:none
+  }
+
+  .payment-methods{
+    grid-template-columns:1fr 1fr
+  }
+
+  .form-row{
+    grid-template-columns:1fr
+  }
+
+  .stat-cards{
+    grid-template-columns:1fr 1fr
+  }
 }
 </style>
 </head>
+
 <body>
 
-<!-- ══════════════ NAVBAR ══════════════ -->
+<!-- NAVBAR -->
+
 <nav>
-  <div class="brand" onclick="showPage('home')" style="cursor:pointer">Road<span>Kitchen</span></div>
-  <div class="nav-links">
-    <a href="#" onclick="showPage('home');return false" id="nav-home">Home</a>
-    <a href="#" onclick="showPage('menu');return false" class="hide-mobile" id="nav-menu">Menu</a>
-    <a href="#" onclick="showPage('orders');return false" class="hide-mobile" id="nav-orders" style="display:none">My Orders</a>
-    <a href="#" onclick="showPage('admin');return false" class="hide-mobile" id="nav-admin" style="display:none">Admin</a>
-    <button onclick="toggleAuth()" id="auth-btn">Login</button>
-    <button class="cart-btn" onclick="toggleCart()">
-      🛒 Cart <span class="cart-count" id="cart-count">0</span>
-    </button>
+
+  <div
+    class="brand"
+    onclick="showPage('home')"
+    style="cursor:pointer"
+  >
+    Road<span>Kitchen</span>
   </div>
+
+  <div class="nav-links">
+
+    <a
+      href="#"
+      onclick="showPage('home');return false"
+      id="nav-home"
+    >
+      Home
+    </a>
+
+    <a
+      href="#"
+      onclick="showPage('menu');return false"
+      class="hide-mobile"
+      id="nav-menu"
+    >
+      Menu
+    </a>
+
+    <a
+      href="#"
+      onclick="showPage('orders');return false"
+      class="hide-mobile"
+      id="nav-orders"
+      style="display:none"
+    >
+      My Orders
+    </a>
+
+    <a
+      href="#"
+      onclick="showPage('admin');return false"
+      class="hide-mobile"
+      id="nav-admin"
+      style="display:none"
+    >
+      Admin
+    </a>
+
+    <button onclick="toggleAuth()" id="auth-btn">
+      Login
+    </button>
+
+    <button class="cart-btn" onclick="toggleCart()">
+      🛒 Cart
+      <span class="cart-count" id="cart-count">0</span>
+    </button>
+
+  </div>
+
 </nav>
 
-<!-- ══════════════ TOAST CONTAINER ══════════════ -->
-<div class="toast-container" id="toast-container"></div>
+<!-- TOAST -->
 
-<!-- ══════════════ CART SIDEBAR ══════════════ -->
-<div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
-<div class="cart-sidebar" id="cart-sidebar">
+<div
+  class="toast-container"
+  id="toast-container"
+></div>
+
+<!-- CART -->
+
+<div
+  class="cart-overlay"
+  id="cart-overlay"
+  onclick="toggleCart()"
+></div>
+
+<div
+  class="cart-sidebar"
+  id="cart-sidebar"
+>
+
   <div class="cart-header">
+
     <h3>🛒 Your Order</h3>
-    <button class="cart-close" onclick="toggleCart()">✕</button>
+
+    <button
+      class="cart-close"
+      onclick="toggleCart()"
+    >
+      ✕
+    </button>
+
   </div>
-  <div class="cart-items" id="cart-items-list"></div>
-  <div class="cart-footer" id="cart-footer"></div>
+
+  <div
+    class="cart-items"
+    id="cart-items-list"
+  ></div>
+
+  <div
+    class="cart-footer"
+    id="cart-footer"
+  ></div>
+
 </div>
 
-<!-- ══════════════ MODAL ══════════════ -->
-<div class="modal-overlay" id="modal-overlay">
-  <div class="modal" id="modal">
+<!-- MODAL -->
+
+<div
+  class="modal-overlay"
+  id="modal-overlay"
+>
+
+  <div
+    class="modal"
+    id="modal"
+  >
+
     <div class="modal-header">
-      <h3 id="modal-title">Add Item</h3>
-      <button class="modal-close" onclick="closeModal()">✕</button>
+
+      <h3 id="modal-title">
+        Add Item
+      </h3>
+
+      <button
+        class="modal-close"
+        onclick="closeModal()"
+      >
+        ✕
+      </button>
+
     </div>
+
     <div id="modal-body"></div>
+
   </div>
+
 </div>
 
-<!-- ══════════════════════════════════════════ -->
-<!--                 PAGES                      -->
-<!-- ══════════════════════════════════════════ -->
+<!-- HOME PAGE -->
 
-<!-- ── HOME PAGE ── -->
-<div class="page active" id="page-home">
+<div
+  class="page active"
+  id="page-home"
+>
+
   <div class="hero">
+
     <div class="hero-bg"></div>
-    <div class="float-icons" id="float-icons"></div>
+
+    <div
+      class="float-icons"
+      id="float-icons"
+    ></div>
+
     <div class="hero-content">
-      <span class="hero-eyebrow">🍽️ Hot & Fresh, Delivered Fast</span>
-      <h1>Crave it.<br><em>Order it.</em><br>Love it.</h1>
-      <p>Handpicked dishes from the best kitchens, delivered to your door in minutes. Fresh, fast, and unforgettable.</p>
+
+      <span class="hero-eyebrow">
+        🍽️ Hot & Fresh, Delivered Fast
+      </span>
+
+      <h1>
+        Crave it.<br>
+        <em>Order it.</em><br>
+        Love it.
+      </h1>
+
+      <p>
+        Handpicked dishes from the best kitchens,
+        delivered to your door in minutes.
+        Fresh, fast, and unforgettable.
+      </p>
+
       <div class="hero-cta">
-        <button class="btn-primary" onclick="showPage('menu')">Browse Menu 🍛</button>
-        <button class="btn-outline" onclick="showPage('login')">Sign In</button>
+
+        <button
+          class="btn-primary"
+          onclick="showPage('menu')"
+        >
+          Browse Menu 🍛
+        </button>
+
+        <button
+          class="btn-outline"
+          onclick="showPage('login')"
+        >
+          Sign In
+        </button>
+
       </div>
+
     </div>
+
   </div>
 
-  <!-- Features -->
-  <div class="section" style="background:var(--white)">
+  <div
+    class="section"
+    style="background:var(--white)"
+  >
+
     <div class="section-inner">
+
       <div class="section-header">
-        <div class="eyebrow">Why RoadKitchen?</div>
-        <h2>Every bite, perfectly delivered</h2>
-        <p>We take the complexity out of ordering food so you can focus on what matters — eating well.</p>
+
+        <div class="eyebrow">
+          Why RoadKitchen?
+        </div>
+
+        <h2>
+          Every bite, perfectly delivered
+        </h2>
+
+        <p>
+          We take the complexity out of ordering food
+          so you can focus on what matters — eating well.
+        </p>
+
       </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:2rem">
-        <div style="text-align:center;padding:1.5rem">
-          <div style="font-size:3rem;margin-bottom:1rem">⚡</div>
-          <h3 style="font-size:1.1rem;margin-bottom:.5rem">Lightning Fast</h3>
-          <p style="color:var(--text-muted);font-size:.9rem">Average delivery time under 35 minutes, guaranteed.</p>
+
+      <div
+        style="
+          display:grid;
+          grid-template-columns:
+          repeat(auto-fill,minmax(220px,1fr));
+          gap:2rem
+        "
+      >
+
+        <div
+          style="
+            text-align:center;
+            padding:1.5rem
+          "
+        >
+          <div
+            style="
+              font-size:3rem;
+              margin-bottom:1rem
+            "
+          >
+            ⚡
+          </div>
+
+          <h3
+            style="
+              font-size:1.1rem;
+              margin-bottom:.5rem
+            "
+          >
+            Lightning Fast
+          </h3>
+
+          <p
+            style="
+              color:var(--text-muted);
+              font-size:.9rem
+            "
+          >
+            Average delivery time under 35 minutes,
+            guaranteed.
+          </p>
+
         </div>
-        <div style="text-align:center;padding:1.5rem">
-          <div style="font-size:3rem;margin-bottom:1rem">🧑‍🍳</div>
-          <h3 style="font-size:1.1rem;margin-bottom:.5rem">Expert Kitchens</h3>
-          <p style="color:var(--text-muted);font-size:.9rem">Curated menus from passionate chefs and restaurants.</p>
+
+        <div
+          style="
+            text-align:center;
+            padding:1.5rem
+          "
+        >
+
+          <div
+            style="
+              font-size:3rem;
+              margin-bottom:1rem
+            "
+          >
+            🧑‍🍳
+          </div>
+
+          <h3
+            style="
+              font-size:1.1rem;
+              margin-bottom:.5rem
+            "
+          >
+            Expert Kitchens
+          </h3>
+
+          <p
+            style="
+              color:var(--text-muted);
+              font-size:.9rem
+            "
+          >
+            Curated menus from passionate chefs
+            and restaurants.
+          </p>
+
         </div>
-        <div style="text-align:center;padding:1.5rem">
-          <div style="font-size:3rem;margin-bottom:1rem">🔒</div>
-          <h3 style="font-size:1.1rem;margin-bottom:.5rem">Secure Payments</h3>
-          <p style="color:var(--text-muted);font-size:.9rem">Encrypted and safe — pay however you like.</p>
+
+        <div
+          style="
+            text-align:center;
+            padding:1.5rem
+          "
+        >
+
+          <div
+            style="
+              font-size:3rem;
+              margin-bottom:1rem
+            "
+          >
+            🔒
+          </div>
+
+          <h3
+            style="
+              font-size:1.1rem;
+              margin-bottom:.5rem
+            "
+          >
+            Secure Payments
+          </h3>
+
+          <p
+            style="
+              color:var(--text-muted);
+              font-size:.9rem
+            "
+          >
+            Encrypted and safe — pay however you like.
+          </p>
+
         </div>
-        <div style="text-align:center;padding:1.5rem">
-          <div style="font-size:3rem;margin-bottom:1rem">📍</div>
-          <h3 style="font-size:1.1rem;margin-bottom:.5rem">Live Tracking</h3>
-          <p style="color:var(--text-muted);font-size:.9rem">Watch your order journey from kitchen to doorstep.</p>
+
+        <div
+          style="
+            text-align:center;
+            padding:1.5rem
+          "
+        >
+
+          <div
+            style="
+              font-size:3rem;
+              margin-bottom:1rem
+            "
+          >
+            📍
+          </div>
+
+          <h3
+            style="
+              font-size:1.1rem;
+              margin-bottom:.5rem
+            "
+          >
+            Live Tracking
+          </h3>
+
+          <p
+            style="
+              color:var(--text-muted);
+              font-size:.9rem
+            "
+          >
+            Watch your order journey from kitchen
+            to doorstep.
+          </p>
+
         </div>
+
       </div>
+
     </div>
+
   </div>
 
-  <!-- Popular Items Preview -->
   <div class="section">
+
     <div class="section-inner">
+
       <div class="section-header">
-        <div class="eyebrow">Fan Favourites</div>
-        <h2>Most-ordered this week</h2>
+
+        <div class="eyebrow">
+          Fan Favourites
+        </div>
+
+        <h2>
+          Most-ordered this week
+        </h2>
+
       </div>
-      <div class="menu-grid" id="home-popular"></div>
-      <div style="text-align:center;margin-top:2.5rem">
-        <button class="btn-primary" onclick="showPage('menu')">View Full Menu →</button>
+
+      <div
+        class="menu-grid"
+        id="home-popular"
+      ></div>
+
+      <div
+        style="
+          text-align:center;
+          margin-top:2.5rem
+        "
+      >
+
+        <button
+          class="btn-primary"
+          onclick="showPage('menu')"
+        >
+          View Full Menu →
+        </button>
+
       </div>
+
     </div>
+
   </div>
 
-  <footer>Made with Hari by <span>RoadKitchen</span> &copy; 2026 — All Rights Reserved</footer>
+  <footer>
+    Made with Hari by
+    <span>RoadKitchen</span>
+    &copy; 2026 — All Rights Reserved
+  </footer>
+
 </div>
 
-<!-- ── MENU PAGE ── -->
-<div class="page" id="page-menu">
-  <div class="section" style="padding-top:5rem">
+<!-- MENU PAGE -->
+
+<div
+  class="page"
+  id="page-menu"
+>
+
+  <div
+    class="section"
+    style="padding-top:5rem"
+  >
+
     <div class="section-inner">
+
       <div class="section-header">
-        <div class="eyebrow">Our Menu</div>
-        <h2>What are you craving?</h2>
+
+        <div class="eyebrow">
+          Our Menu
+        </div>
+
+        <h2>
+          What are you craving?
+        </h2>
+
       </div>
+
       <div class="search-bar">
-        <span class="search-icon">🔍</span>
-        <input type="text" placeholder="Search dishes, cuisines..." id="menu-search" oninput="renderMenu()" />
+
+        <span class="search-icon">
+          🔍
+        </span>
+
+        <input
+          type="text"
+          placeholder="Search dishes, cuisines..."
+          id="menu-search"
+          oninput="renderMenu()"
+        />
+
       </div>
-      <div class="cat-tabs" id="cat-tabs"></div>
-      <div class="menu-grid" id="menu-grid"></div>
+
+      <div
+        class="cat-tabs"
+        id="cat-tabs"
+      ></div>
+
+      <div
+        class="menu-grid"
+        id="menu-grid"
+      ></div>
+
     </div>
+
   </div>
-  <footer>Made with Hari by <span>RoadKitchen</span> &copy; 2025</footer>
+
+  <footer>
+    Made with Hari by
+    <span>RoadKitchen</span>
+    &copy; 2026
+  </footer>
+
 </div>
 
-<!-- ── LOGIN PAGE ── -->
-<div class="page" id="page-login">
+<!-- LOGIN PAGE -->
+
+<div
+  class="page"
+  id="page-login"
+>
+
   <div class="auth-page">
+
     <div class="auth-card">
-      <h2>Welcome back 👋</h2>
-      <p>Sign in to continue ordering</p>
+
+      <h2>
+        Welcome back 👋
+      </h2>
+
+      <p>
+        Sign in to continue ordering
+      </p>
+
       <div id="login-alert"></div>
+
       <div class="form-group">
-        <label>Email Address</label>
-        <input type="email" id="login-email" placeholder="you@example.com" />
-        <div class="form-error" id="err-login-email"></div>
+
+        <label>
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          id="login-email"
+          placeholder="you@example.com"
+        />
+
+        <div
+          class="form-error"
+          id="err-login-email"
+        ></div>
+
       </div>
+
       <div class="form-group">
-        <label>Password</label>
-        <input type="password" id="login-password" placeholder="••••••••" />
-        <div class="form-error" id="err-login-password"></div>
+
+        <label>
+          Password
+        </label>
+
+        <input
+          type="password"
+          id="login-password"
+          placeholder="••••••••"
+        />
+
+        <div
+          class="form-error"
+          id="err-login-password"
+        ></div>
+
       </div>
-      <button class="form-submit" onclick="doLogin()">Sign In</button>
+
+      <button
+        class="form-submit"
+        onclick="doLogin()"
+      >
+        Sign In
+      </button>
+
       <div class="auth-switch">
-        Don't have an account? <a onclick="showPage('register')">Create one</a>
+
+        Don't have an account?
+
+        <a onclick="showPage('register')">
+          Create one
+        </a>
+
       </div>
-      <div class="auth-switch" style="margin-top:.5rem">
-        <a onclick="showPage('admin-login')" style="color:var(--text-muted);font-size:.8rem">Admin login →</a>
+
+      <div
+        class="auth-switch"
+        style="margin-top:.5rem"
+      >
+
+        <a
+          onclick="showPage('admin-login')"
+          style="
+            color:var(--text-muted);
+            font-size:.8rem
+          "
+        >
+          Admin login →
+        </a>
+
       </div>
+
     </div>
+
   </div>
+
 </div>
 
-<!-- ── REGISTER PAGE ── -->
-<div class="page" id="page-register">
+<!-- REGISTER PAGE -->
+
+<div
+  class="page"
+  id="page-register"
+>
+
   <div class="auth-page">
+
     <div class="auth-card">
-      <h2>Create account 🍜</h2>
-      <p>Join RoadKitchen and start ordering</p>
+
+      <h2>
+        Create account 🍜
+      </h2>
+
+      <p>
+        Join RoadKitchen and start ordering
+      </p>
+
       <div id="register-alert"></div>
+
       <div class="form-row">
+
         <div class="form-group">
-          <label>First Name</label>
-          <input type="text" id="reg-fname" placeholder="Arjun" />
-          <div class="form-error" id="err-reg-fname"></div>
+
+          <label>
+            First Name
+          </label>
+
+          <input
+            type="text"
+            id="reg-fname"
+            placeholder="Arjun"
+          />
+
+          <div
+            class="form-error"
+            id="err-reg-fname"
+          ></div>
+
         </div>
+
         <div class="form-group">
-          <label>Last Name</label>
-          <input type="text" id="reg-lname" placeholder="Kumar" />
+
+          <label>
+            Last Name
+          </label>
+
+          <input
+            type="text"
+            id="reg-lname"
+            placeholder="Kumar"
+          />
+
         </div>
+
       </div>
+
       <div class="form-group">
-        <label>Email Address</label>
-        <input type="email" id="reg-email" placeholder="you@example.com" />
-        <div class="form-error" id="err-reg-email"></div>
+
+        <label>
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          id="reg-email"
+          placeholder="you@example.com"
+        />
+
+        <div
+          class="form-error"
+          id="err-reg-email"
+        ></div>
+
       </div>
+
       <div class="form-group">
-        <label>Phone Number</label>
-        <input type="tel" id="reg-phone" placeholder="+91 9876543210" />
+
+        <label>
+          Phone Number
+        </label>
+
+        <input
+          type="tel"
+          id="reg-phone"
+          placeholder="+91 9876543210"
+        />
+
       </div>
+
       <div class="form-group">
-        <label>Delivery Address</label>
-        <input type="text" id="reg-address" placeholder="123 Main Street, Chennai" />
+
+        <label>
+          Delivery Address
+        </label>
+
+        <input
+          type="text"
+          id="reg-address"
+          placeholder="123 Main Street, Chennai"
+        />
+
       </div>
+
       <div class="form-row">
+
         <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="reg-password" placeholder="••••••••" />
-          <div class="form-error" id="err-reg-password"></div>
+
+          <label>
+            Password
+          </label>
+
+          <input
+            type="password"
+            id="reg-password"
+            placeholder="••••••••"
+          />
+
+          <div
+            class="form-error"
+            id="err-reg-password"
+          ></div>
+
         </div>
+
         <div class="form-group">
-          <label>Confirm Password</label>
-          <input type="password" id="reg-confirm" placeholder="••••••••" />
-          <div class="form-error" id="err-reg-confirm"></div>
+
+          <label>
+            Confirm Password
+          </label>
+
+          <input
+            type="password"
+            id="reg-confirm"
+            placeholder="••••••••"
+          />
+
+          <div
+            class="form-error"
+            id="err-reg-confirm"
+          ></div>
+
         </div>
+
       </div>
-      <button class="form-submit" onclick="doRegister()">Create Account</button>
-      <div class="auth-switch">Already have an account? <a onclick="showPage('login')">Sign in</a></div>
+
+      <button
+        class="form-submit"
+        onclick="doRegister()"
+      >
+        Create Account
+      </button>
+
+      <div class="auth-switch">
+
+        Already have an account?
+
+        <a onclick="showPage('login')">
+          Sign in
+        </a>
+
+      </div>
+
     </div>
+
   </div>
+
 </div>
 
-<!-- ── ADMIN LOGIN ── -->
-<div class="page" id="page-admin-login">
+<!-- ADMIN LOGIN -->
+
+<div
+  class="page"
+  id="page-admin-login"
+>
+
   <div class="auth-page">
+
     <div class="auth-card">
-      <h2>Admin Portal 🔐</h2>
-      <p>Restricted access — authorised personnel only</p>
+
+      <h2>
+        Admin Portal 🔐
+      </h2>
+
+      <p>
+        Restricted access — authorised personnel only
+      </p>
+
       <div id="admin-login-alert"></div>
+
       <div class="form-group">
-        <label>Admin Email</label>
-        <input type="email" id="admin-email" placeholder="hariprasath27114@gmail.com" />
+
+        <label>
+          Admin Email
+        </label>
+
+        <input
+          type="email"
+          id="admin-email"
+          placeholder="hariprasath27114@gmail.com"
+        />
+
       </div>
+
       <div class="form-group">
-        <label>Password</label>
-        <input type="password" id="admin-password" placeholder="hari2005@" />
+
+        <label>
+          Password
+        </label>
+
+        <input
+          type="password"
+          id="admin-password"
+          placeholder="hari2005@"
+        />
+
       </div>
-      <button class="form-submit" onclick="doAdminLogin()">Access Dashboard</button>
-      <div class="auth-switch"><a onclick="showPage('login')" style="color:var(--text-muted)">← Back to customer login</a></div>
+
+      <button
+        class="form-submit"
+        onclick="doAdminLogin()"
+      >
+        Access Dashboard
+      </button>
+
+      <div class="auth-switch">
+
+        <a
+          onclick="showPage('login')"
+          style="color:var(--text-muted)"
+        >
+          ← Back to customer login
+        </a>
+
+      </div>
+
     </div>
+
   </div>
+
 </div>
 
-<!-- ── CHECKOUT PAGE ── -->
-<div class="page" id="page-checkout">
+<!-- CHECKOUT -->
+
+<div
+  class="page"
+  id="page-checkout"
+>
+
   <div class="checkout-page">
+
     <div class="checkout-grid">
+
       <div>
-        <h2 style="font-size:1.8rem;margin-bottom:1.5rem">Checkout</h2>
+
+        <h2
+          style="
+            font-size:1.8rem;
+            margin-bottom:1.5rem
+          "
+        >
+          Checkout
+        </h2>
+
         <div class="checkout-section">
-          <h3>📦 Delivery Details</h3>
+
+          <h3>
+            📦 Delivery Details
+          </h3>
+
           <div class="form-group">
-            <label>Full Name</label>
-            <input type="text" id="co-name" placeholder="Your name" />
+
+            <label>
+              Full Name
+            </label>
+
+            <input
+              type="text"
+              id="co-name"
+              placeholder="Your name"
+            />
+
           </div>
+
           <div class="form-row">
+
             <div class="form-group">
-              <label>Phone</label>
-              <input type="tel" id="co-phone" placeholder="+91 9876543210" />
+
+              <label>
+                Phone
+              </label>
+
+              <input
+                type="tel"
+                id="co-phone"
+                placeholder="+91 9876543210"
+              />
+
             </div>
+
             <div class="form-group">
-              <label>Email</label>
-              <input type="email" id="co-email" placeholder="you@example.com" />
+
+              <label>
+                Email
+              </label>
+
+              <input
+                type="email"
+                id="co-email"
+                placeholder="you@example.com"
+              />
+
             </div>
+
           </div>
+
           <div class="form-group">
-            <label>Delivery Address</label>
-            <input type="text" id="co-address" placeholder="Street, City, PIN" />
+
+            <label>
+              Delivery Address
+            </label>
+
+            <input
+              type="text"
+              id="co-address"
+              placeholder="Street, City, PIN"
+            />
+
           </div>
+
           <div class="form-group">
-            <label>Delivery Instructions (optional)</label>
-            <textarea id="co-notes" rows="2" placeholder="Leave at door, ring bell…"></textarea>
+
+            <label>
+              Delivery Instructions (optional)
+            </label>
+
+            <textarea
+              id="co-notes"
+              rows="2"
+              placeholder="Leave at door, ring bell…"
+            ></textarea>
+
           </div>
+
         </div>
 
         <div class="checkout-section">
-          <h3>💳 Payment Method</h3>
-          <div class="payment-methods" id="payment-methods">
-            <div class="pay-method active" onclick="selectPayment(this,'card')">
-              <span class="icon">💳</span><span>Card</span>
+
+          <h3>
+            💳 Payment Method
+          </h3>
+
+          <div
+            class="payment-methods"
+            id="payment-methods"
+          >
+
+            <div
+              class="pay-method active"
+              onclick="selectPayment(this,'card')"
+            >
+
+              <span class="icon">
+                💳
+              </span>
+
+              <span>
+                Card
+              </span>
+
             </div>
-            <div class="pay-method" onclick="selectPayment(this,'upi')">
-              <span class="icon">📱</span><span>UPI</span>
+
+            <div
+              class="pay-method"
+              onclick="selectPayment(this,'upi')"
+            >
+
+              <span class="icon">
+                📱
+              </span>
+
+              <span>
+                UPI
+              </span>
+
             </div>
-            <div class="pay-method" onclick="selectPayment(this,'cod')">
-              <span class="icon">💵</span><span>Cash on Delivery</span>
+
+            <div
+              class="pay-method"
+              onclick="selectPayment(this,'cod')"
+            >
+
+              <span class="icon">
+                💵
+              </span>
+
+              <span>
+                Cash on Delivery
+              </span>
+
             </div>
+
           </div>
+
           <div id="payment-details"></div>
+
         </div>
+
       </div>
 
       <div>
+
         <div class="order-summary-card">
-          <h3 style="font-size:1.1rem;margin-bottom:1rem;font-family:'Playfair Display',serif">Order Summary</h3>
+
+          <h3
+            style="
+              font-size:1.1rem;
+              margin-bottom:1rem;
+              font-family:'Playfair Display',serif
+            "
+          >
+            Order Summary
+          </h3>
+
           <div id="checkout-summary"></div>
+
           <div id="checkout-totals"></div>
-          <button class="place-order-btn" onclick="placeOrder()">🍽️ Place Order</button>
+
+          <button
+            class="place-order-btn"
+            onclick="placeOrder()"
+          >
+            🍽️ Place Order
+          </button>
+
         </div>
+
       </div>
+
     </div>
+
   </div>
+
 </div>
 
-<!-- ── SUCCESS PAGE ── -->
-<div class="page" id="page-success">
+<!-- SUCCESS -->
+
+<div
+  class="page"
+  id="page-success"
+>
+
   <div class="success-page">
+
     <div class="success-card">
-      <span class="success-icon">🎉</span>
-      <h2>Order Placed!</h2>
-      <p>Your food is being prepared with love. Estimated delivery: <strong>30–45 minutes</strong></p>
-      <div class="order-id" id="success-order-id">ORDER #FF-000000</div>
-      <div class="track-steps" id="track-steps"></div>
-      <button class="btn-primary" style="width:100%;justify-content:center;margin-top:.5rem" onclick="showPage('orders')">Track My Order</button>
-      <button class="btn-outline" style="width:100%;justify-content:center;margin-top:.75rem;color:var(--charcoal);border-color:var(--cream-dark)" onclick="showPage('menu')">Order More</button>
+
+      <span class="success-icon">
+        🎉
+      </span>
+
+      <h2>
+        Order Placed!
+      </h2>
+
+      <p>
+        Your food is being prepared with love.
+        Estimated delivery:
+        <strong>30–45 minutes</strong>
+      </p>
+
+      <div
+        class="order-id"
+        id="success-order-id"
+      >
+        ORDER #FF-000000
+      </div>
+
+      <div
+        class="track-steps"
+        id="track-steps"
+      ></div>
+
+      <button
+        class="btn-primary"
+        style="
+          width:100%;
+          justify-content:center;
+          margin-top:.5rem
+        "
+        onclick="showPage('orders')"
+      >
+        Track My Order
+      </button>
+
+      <button
+        class="btn-outline"
+        style="
+          width:100%;
+          justify-content:center;
+          margin-top:.75rem;
+          color:var(--charcoal);
+          border-color:var(--cream-dark)
+        "
+        onclick="showPage('menu')"
+      >
+        Order More
+      </button>
+
     </div>
+
   </div>
+
 </div>
 
-<!-- ── MY ORDERS PAGE ── -->
-<div class="page" id="page-orders">
+<!-- ORDERS -->
+
+<div
+  class="page"
+  id="page-orders"
+>
+
   <div class="tracking-page">
+
     <div class="tracking-inner">
-      <h2>📦 My Orders</h2>
+
+      <h2>
+        📦 My Orders
+      </h2>
+
       <div id="orders-list"></div>
+
     </div>
+
   </div>
+
 </div>
 
-<!-- ── PROFILE PAGE ── -->
-<div class="page" id="page-profile">
+<!-- PROFILE -->
+
+<div
+  class="page"
+  id="page-profile"
+>
+
   <div class="profile-page">
+
     <div class="profile-inner">
-      <div class="profile-header-card" id="profile-header"></div>
+
+      <div
+        class="profile-header-card"
+        id="profile-header"
+      ></div>
+
       <div class="checkout-section">
-        <h3>✏️ Edit Profile</h3>
+
+        <h3>
+          ✏️ Edit Profile
+        </h3>
+
         <div class="form-row">
+
           <div class="form-group">
-            <label>First Name</label>
-            <input type="text" id="pf-fname" />
+
+            <label>
+              First Name
+            </label>
+
+            <input
+              type="text"
+              id="pf-fname"
+            />
+
           </div>
+
           <div class="form-group">
-            <label>Last Name</label>
-            <input type="text" id="pf-lname" />
+
+            <label>
+              Last Name
+            </label>
+
+            <input
+              type="text"
+              id="pf-lname"
+            />
+
           </div>
+
         </div>
+
         <div class="form-group">
-          <label>Phone</label>
-          <input type="tel" id="pf-phone" />
+
+          <label>
+            Phone
+          </label>
+
+          <input
+            type="tel"
+            id="pf-phone"
+          />
+
         </div>
+
         <div class="form-group">
-          <label>Address</label>
-          <input type="text" id="pf-address" />
+
+          <label>
+            Address
+          </label>
+
+          <input
+            type="text"
+            id="pf-address"
+          />
+
         </div>
-        <button class="form-submit" onclick="saveProfile()">Save Changes</button>
+
+        <button
+          class="form-submit"
+          onclick="saveProfile()"
+        >
+          Save Changes
+        </button>
+
       </div>
-      <div class="checkout-section" style="margin-top:1rem">
-        <h3>🔐 Change Password</h3>
+
+      <div
+        class="checkout-section"
+        style="margin-top:1rem"
+      >
+
+        <h3>
+          🔐 Change Password
+        </h3>
+
         <div class="form-row">
+
           <div class="form-group">
-            <label>New Password</label>
-            <input type="password" id="pf-pw" placeholder="••••••••" />
+
+            <label>
+              New Password
+            </label>
+
+            <input
+              type="password"
+              id="pf-pw"
+              placeholder="••••••••"
+            />
+
           </div>
+
           <div class="form-group">
-            <label>Confirm New Password</label>
-            <input type="password" id="pf-pw2" placeholder="••••••••" />
+
+            <label>
+              Confirm New Password
+            </label>
+
+            <input
+              type="password"
+              id="pf-pw2"
+              placeholder="••••••••"
+            />
+
           </div>
+
         </div>
-        <button class="form-submit" onclick="changePassword()">Update Password</button>
+
+        <button
+          class="form-submit"
+          onclick="changePassword()"
+        >
+          Update Password
+        </button>
+
       </div>
+
     </div>
+
   </div>
+
 </div>
 
-<!-- ── ADMIN DASHBOARD ── -->
-<div class="page" id="page-admin">
+<!-- ADMIN DASHBOARD -->
+
+<div
+  class="page"
+  id="page-admin"
+>
+
   <div class="admin-page">
+
     <div class="admin-layout">
+
       <div class="admin-sidebar">
-        <h4 style="margin-top:1rem">Dashboard</h4>
-        <div class="admin-nav-item active" onclick="adminNav('overview',this)"><span class="icon">📊</span> Overview</div>
-        <div class="admin-nav-item" onclick="adminNav('menu-mgmt',this)"><span class="icon">🍽️</span> Menu Items</div>
-        <div class="admin-nav-item" onclick="adminNav('orders-mgmt',this)"><span class="icon">📦</span> Orders</div>
-        <div class="admin-nav-item" onclick="adminNav('customers',this)"><span class="icon">👥</span> Customers</div>
-        <h4 style="margin-top:1.5rem">Account</h4>
-        <div class="admin-nav-item" onclick="doLogout()"><span class="icon">🚪</span> Logout</div>
+
+        <h4 style="margin-top:1rem">
+          Dashboard
+        </h4>
+
+        <div
+          class="admin-nav-item active"
+          onclick="adminNav('overview',this)"
+        >
+          <span class="icon">📊</span>
+          Overview
+        </div>
+
+        <div
+          class="admin-nav-item"
+          onclick="adminNav('menu-mgmt',this)"
+        >
+          <span class="icon">🍽️</span>
+          Menu Items
+        </div>
+
+        <div
+          class="admin-nav-item"
+          onclick="adminNav('orders-mgmt',this)"
+        >
+          <span class="icon">📦</span>
+          Orders
+        </div>
+
+        <div
+          class="admin-nav-item"
+          onclick="adminNav('customers',this)"
+        >
+          <span class="icon">👥</span>
+          Customers
+        </div>
+
+        <h4 style="margin-top:1.5rem">
+          Account
+        </h4>
+
+        <div
+          class="admin-nav-item"
+          onclick="doLogout()"
+        >
+          <span class="icon">🚪</span>
+          Logout
+        </div>
+
       </div>
-      <div class="admin-content" id="admin-content"></div>
+
+      <div
+        class="admin-content"
+        id="admin-content"
+      ></div>
+
     </div>
+
   </div>
+
 </div>
 
 <script>
+
 /* ══════════════════════════════════════════════
    DATA STORE
 ══════════════════════════════════════════════ */
+
 const DB = {
-  users: JSON.parse(localStorage.getItem('ff_users')||'[]'),
-  orders: JSON.parse(localStorage.getItem('ff_orders')||'[]'),
-  menuItems: JSON.parse(localStorage.getItem('ff_menu')||'null') || getDefaultMenu(),
-  session: JSON.parse(localStorage.getItem('ff_session')||'null'),
+
+  users:
+    JSON.parse(
+      localStorage.getItem('ff_users') || '[]'
+    ),
+
+  orders:
+    JSON.parse(
+      localStorage.getItem('ff_orders') || '[]'
+    ),
+
+  menuItems:
+    JSON.parse(
+      localStorage.getItem('ff_menu') || 'null'
+    ) || getDefaultMenu(),
+
+  session:
+    JSON.parse(
+      localStorage.getItem('ff_session') || 'null'
+    )
+
 };
 
-function save(key){ localStorage.setItem('ff_'+key, JSON.stringify(DB[key])) }
+function save(key){
 
-function getDefaultMenu(){
-  return [
-    {id:1,name:'Butter Chicken',category:'Main Course',emoji:'🍛',price:280,desc:'Tender chicken in rich tomato-cream sauce with aromatic spices',badge:'nonveg',popular:true},
-    {id:2,name:'Paneer Tikka',category:'Starters',emoji:'🧀',price:220,desc:'Marinated cottage cheese grilled to perfection with peppers and onions',badge:'veg',popular:true},
-    {id:3,name:'Biryani Royal',category:'Main Course',emoji:'🍚',price:320,desc:'Fragrant basmati rice layered with spiced meat, saffron and caramelised onions',badge:'nonveg',popular:true},
-    {id:4,name:'Masala Dosa',category:'South Indian',emoji:'🫓',price:120,desc:'Crispy rice crepe filled with spiced potato masala, served with sambar & chutneys',badge:'veg',popular:false},
-    {id:5,name:'Tandoori Platter',category:'Starters',emoji:'🍗',price:380,desc:'Assorted tandoori meats — chicken, seekh kebab, and lamb chops — with mint chutney',badge:'nonveg',popular:true},
-    {id:6,name:'Dal Makhani',category:'Main Course',emoji:'🥘',price:180,desc:'Slow-cooked black lentils simmered overnight in butter and cream',badge:'veg',popular:false},
-    {id:7,name:'Veg Momos',category:'Starters',emoji:'🥟',price:140,desc:'Steamed dumplings stuffed with seasoned vegetables, served with spicy chilli sauce',badge:'veg',popular:false},
-    {id:8,name:'Gulab Jamun',category:'Desserts',emoji:'🍮',price:90,desc:'Soft milk-solid balls soaked in rose-flavoured sugar syrup, served warm',badge:'veg',popular:false},
-    {id:9,name:'Chocolate Lava Cake',category:'Desserts',emoji:'🍫',price:150,desc:'Warm chocolate cake with a flowing molten centre, served with vanilla ice cream',badge:'veg',popular:true},
-    {id:10,name:'Mango Lassi',category:'Beverages',emoji:'🥭',price:80,desc:'Chilled yoghurt-based mango smoothie — thick, sweet, and refreshing',badge:'veg',popular:false},
-    {id:11,name:'Masala Chai',category:'Beverages',emoji:'☕',price:50,desc:'Spiced Indian tea brewed with ginger, cardamom, and cinnamon',badge:'veg',popular:false},
-    {id:12,name:'Chicken Fried Rice',category:'Chinese',emoji:'🍳',price:210,desc:'Wok-tossed rice with egg, chicken, vegetables in soy and sesame sauce',badge:'nonveg',popular:false},
-    {id:13,name:'Veg Hakka Noodles',category:'Chinese',emoji:'🍜',price:180,desc:'Stir-fried noodles with crisp vegetables in Indo-Chinese sauces',badge:'veg',popular:false},
-    {id:14,name:'Fish & Chips',category:'Continental',emoji:'🐟',price:290,desc:'Beer-battered fish fillet with golden fries, tartare sauce and lemon wedge',badge:'nonveg',popular:false},
-    {id:15,name:'Margherita Pizza',category:'Continental',emoji:'🍕',price:260,desc:'Stone-baked pizza with San Marzano tomato, fresh mozzarella, and basil',badge:'veg',popular:true},
-    {id:16,name:'Pani Puri',category:'Street Food',emoji:'🫙',price:60,desc:'Crispy hollow puris filled with spiced tamarind water and tangy chickpeas',badge:'veg',popular:false},
-    {id:17,name:'Vada Pav',category:'Street Food',emoji:'🍔',price:40,desc:'Mumbai\'s iconic street burger — spiced potato fritter in a soft bun',badge:'veg',popular:false},
-    {id:18,name:'Special Chef Thali',category:'Main Course',emoji:'🍱',price:350,desc:'Chef\'s daily selection — rice, 3 curries, dal, roti, raita, pickle, and dessert',badge:'special',popular:false},
-  ];
+  localStorage.setItem(
+    'ff_' + key,
+    JSON.stringify(DB[key])
+  );
+
 }
 
-/* ══════════════════════════════════════════════
-   CART STATE
-══════════════════════════════════════════════ */
-let cart = JSON.parse(localStorage.getItem('ff_cart')||'[]');
+function getDefaultMenu(){
+
+  return [
+
+    {
+      id:1,
+      name:'Butter Chicken',
+      category:'Main Course',
+      emoji:'🍛',
+      price:280,
+      desc:'Tender chicken in rich tomato-cream sauce with aromatic spices',
+      badge:'nonveg',
+      popular:true
+    },
+
+    {
+      id:2,
+      name:'Paneer Tikka',
+      category:'Starters',
+      emoji:'🧀',
+      price:220,
+      desc:'Marinated cottage cheese grilled to perfection with peppers and onions',
+      badge:'veg',
+      popular:true
+    },
+
+    {
+      id:3,
+      name:'Biryani Royal',
+      category:'Main Course',
+      emoji:'🍚',
+      price:320,
+      desc:'Fragrant basmati rice layered with spiced meat, saffron and caramelised onions',
+      badge:'nonveg',
+      popular:true
+    },
+
+    {
+      id:4,
+      name:'Masala Dosa',
+      category:'South Indian',
+      emoji:'🫓',
+      price:120,
+      desc:'Crispy rice crepe filled with spiced potato masala, served with sambar & chutneys',
+      badge:'veg',
+      popular:false
+    },
+
+    {
+      id:5,
+      name:'Tandoori Platter',
+      category:'Starters',
+      emoji:'🍗',
+      price:380,
+      desc:'Assorted tandoori meats — chicken, seekh kebab, and lamb chops — with mint chutney',
+      badge:'nonveg',
+      popular:true
+    },
+
+    {
+      id:6,
+      name:'Dal Makhani',
+      category:'Main Course',
+      emoji:'🥘',
+      price:180,
+      desc:'Slow-cooked black lentils simmered overnight in butter and cream',
+      badge:'veg',
+      popular:false
+    },
+
+    {
+      id:7,
+      name:'Veg Momos',
+      category:'Starters',
+      emoji:'🥟',
+      price:140,
+      desc:'Steamed dumplings stuffed with seasoned vegetables, served with spicy chilli sauce',
+      badge:'veg',
+      popular:false
+    },
+
+    {
+      id:8,
+      name:'Gulab Jamun',
+      category:'Desserts',
+      emoji:'🍮',
+      price:90,
+      desc:'Soft milk-solid balls soaked in rose-flavoured sugar syrup, served warm',
+      badge:'veg',
+      popular:false
+    },
+
+    {
+      id:9,
+      name:'Chocolate Lava Cake',
+      category:'Desserts',
+      emoji:'🍫',
+      price:150,
+      desc:'Warm chocolate cake with a flowing molten centre, served with vanilla ice cream',
+      badge:'veg',
+      popular:true
+    },
+
+    {
+      id:10,
+      name:'Mango Lassi',
+      category:'Beverages',
+      emoji:'🥭',
+      price:80,
+      desc:'Chilled yoghurt-based mango smoothie — thick, sweet, and refreshing',
+      badge:'veg',
+      popular:false
+    },
+
+    {
+      id:11,
+      name:'Masala Chai',
+      category:'Beverages',
+      emoji:'☕',
+      price:50,
+      desc:'Spiced Indian tea brewed with ginger, cardamom, and cinnamon',
+      badge:'veg',
+      popular:false
+    },
+
+    {
+      id:12,
+      name:'Chicken Fried Rice',
+      category:'Chinese',
+      emoji:'🍳',
+      price:210,
+      desc:'Wok-tossed rice with egg, chicken, vegetables in soy and sesame sauce',
+      badge:'nonveg',
+      popular:false
+    },
+
+    {
+      id:13,
+      name:'Veg Hakka Noodles',
+      category:'Chinese',
+      emoji:'🍜',
+      price:180,
+      desc:'Stir-fried noodles with crisp vegetables in Indo-Chinese sauces',
+      badge:'veg',
+      popular:false
+    },
+
+    {
+      id:14,
+      name:'Fish & Chips',
+      category:'Continental',
+      emoji:'🐟',
+      price:290,
+      desc:'Beer-battered fish fillet with golden fries, tartare sauce and lemon wedge',
+      badge:'nonveg',
+      popular:false
+    },
+
+    {
+      id:15,
+      name:'Margherita Pizza',
+      category:'Continental',
+      emoji:'🍕',
+      price:260,
+      desc:'Stone-baked pizza with San Marzano tomato, fresh mozzarella, and basil',
+      badge:'veg',
+      popular:true
+    },
+
+    {
+      id:16,
+      name:'Pani Puri',
+      category:'Street Food',
+      emoji:'🫙',
+      price:60,
+      desc:'Crispy hollow puris filled with spiced tamarind water and tangy chickpeas',
+      badge:'veg',
+      popular:false
+    },
+
+    {
+      id:17,
+      name:'Vada Pav',
+      category:'Street Food',
+      emoji:'🍔',
+      price:40,
+      desc:"Mumbai's iconic street burger — spiced potato fritter in a soft bun",
+      badge:'veg',
+      popular:false
+    },
+
+    {
+      id:18,
+      name:'Special Chef Thali',
+      category:'Main Course',
+      emoji:'🍱',
+      price:350,
+      desc:"Chef's daily selection — rice, 3 curries, dal, roti, raita, pickle, and dessert",
+      badge:'special',
+      popular:false
+    }
+
+  ];
+
+}
+
+/* CART */
+
+let cart =
+  JSON.parse(
+    localStorage.getItem('ff_cart') || '[]'
+  );
+
 let selectedPayment = 'card';
+
 let currentAdminSection = 'overview';
+
 let editingItemId = null;
 
-function saveCart(){ localStorage.setItem('ff_cart', JSON.stringify(cart)) }
+function saveCart(){
 
-/* ══════════════════════════════════════════════
-   PAGE ROUTING
-══════════════════════════════════════════════ */
+  localStorage.setItem(
+    'ff_cart',
+    JSON.stringify(cart)
+  );
+
+}
+
+/* PAGE ROUTING */
+
 function showPage(name){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  const pg = document.getElementById('page-'+name);
-  if(pg) pg.classList.add('active');
+
+  document
+    .querySelectorAll('.page')
+    .forEach(p =>
+      p.classList.remove('active')
+    );
+
+  const pg =
+    document.getElementById('page-' + name);
+
+  if(pg){
+    pg.classList.add('active');
+  }
+
   window.scrollTo(0,0);
 
-  // Page-specific init
-  if(name==='home') renderHomePopular();
-  if(name==='menu') renderMenu();
-  if(name==='checkout') renderCheckout();
-  if(name==='orders') renderOrders();
-  if(name==='admin') renderAdmin('overview');
-  if(name==='profile') renderProfile();
+  if(name === 'home'){
+    renderHomePopular();
+  }
+
+  if(name === 'menu'){
+    renderMenu();
+  }
+
+  if(name === 'checkout'){
+    renderCheckout();
+  }
+
+  if(name === 'orders'){
+    renderOrders();
+  }
+
+  if(name === 'admin'){
+    renderAdmin('overview');
+  }
+
+  if(name === 'profile'){
+    renderProfile();
+  }
+
   updateNav();
+
 }
 
 function updateNav(){
+
   const s = DB.session;
-  const authBtn = document.getElementById('auth-btn');
-  const navAdmin = document.getElementById('nav-admin');
-  const navOrders = document.getElementById('nav-orders');
+
+  const authBtn =
+    document.getElementById('auth-btn');
+
+  const navAdmin =
+    document.getElementById('nav-admin');
+
+  const navOrders =
+    document.getElementById('nav-orders');
+
   if(s){
-    authBtn.textContent = s.firstName || 'Profile';
-    authBtn.onclick = ()=>showPage('profile');
-    navOrders.style.display='inline';
-    navAdmin.style.display = s.isAdmin ? 'inline' : 'none';
-  } else {
-    authBtn.textContent='Login';
-    authBtn.onclick = toggleAuth;
-    navOrders.style.display='none';
-    navAdmin.style.display='none';
+
+    authBtn.textContent =
+      s.firstName || 'Profile';
+
+    authBtn.onclick =
+      () => showPage('profile');
+
+    navOrders.style.display =
+      'inline';
+
+    navAdmin.style.display =
+      s.isAdmin ? 'inline' : 'none';
+
+  }else{
+
+    authBtn.textContent =
+      'Login';
+
+    authBtn.onclick =
+      toggleAuth;
+
+    navOrders.style.display =
+      'none';
+
+    navAdmin.style.display =
+      'none';
+
   }
+
   updateCartBadge();
+
 }
 
 function toggleAuth(){
-  if(DB.session){ showPage('profile'); } else { showPage('login'); }
+
+  if(DB.session){
+
+    showPage('profile');
+
+  }else{
+
+    showPage('login');
+
+  }
+
 }
 
-/* ══════════════════════════════════════════════
-   FLOATING ICONS HERO
-══════════════════════════════════════════════ */
+/* FLOATING ICONS */
+
 function initFloatIcons(){
-  const icons=['🍕','🍔','🌮','🍜','🍛','🍣','🥗','🍱','🧆','🥘','🍗','🥟','🍩','🍦'];
-  const c = document.getElementById('float-icons');
+
+  const icons = [
+    '🍕',
+    '🍔',
+    '🌮',
+    '🍜',
+    '🍛',
+    '🍣',
+    '🥗',
+    '🍱',
+    '🧆',
+    '🥘',
+    '🍗',
+    '🥟',
+    '🍩',
+    '🍦'
+  ];
+
+  const c =
+    document.getElementById('float-icons');
+
   if(!c) return;
+
   icons.forEach((ic,i)=>{
-    const el = document.createElement('div');
-    el.className='float-icon';
-    el.textContent=ic;
-    el.style.left=Math.random()*90+'%';
-    el.style.animationDelay=(Math.random()*8)+'s';
-    el.style.animationDuration=(7+Math.random()*6)+'s';
+
+    const el =
+      document.createElement('div');
+
+    el.className =
+      'float-icon';
+
+    el.textContent =
+      ic;
+
+    el.style.left =
+      Math.random()*90 + '%';
+
+    el.style.animationDelay =
+      Math.random()*8 + 's';
+
+    el.style.animationDuration =
+      (7 + Math.random()*6) + 's';
+
     c.appendChild(el);
+
   });
+
 }
 
-/* ══════════════════════════════════════════════
-   MENU RENDERING
-══════════════════════════════════════════════ */
-const CATEGORIES = ['All','Starters','Main Course','South Indian','Chinese','Continental','Street Food','Desserts','Beverages'];
+/* MENU */
+
+const CATEGORIES = [
+  'All',
+  'Starters',
+  'Main Course',
+  'South Indian',
+  'Chinese',
+  'Continental',
+  'Street Food',
+  'Desserts',
+  'Beverages'
+];
+
 let activeCategory = 'All';
 
 function renderHomePopular(){
-  const c = document.getElementById('home-popular');
+
+  const c =
+    document.getElementById(
+      'home-popular'
+    );
+
   if(!c) return;
-  const items = DB.menuItems.filter(i=>i.popular).slice(0,6);
-  c.innerHTML = items.map(foodCard).join('');
+
+  const items =
+    DB.menuItems
+      .filter(i => i.popular)
+      .slice(0,6);
+
+  c.innerHTML =
+    items.map(foodCard).join('');
+
 }
 
 function renderMenu(){
-  // Tabs
-  const tabs = document.getElementById('cat-tabs');
+
+  const tabs =
+    document.getElementById(
+      'cat-tabs'
+    );
+
   if(tabs){
-    tabs.innerHTML = CATEGORIES.map(c=>
-      `<div class="cat-tab${c===activeCategory?' active':''}" onclick="setCategory('${c}')">${c}</div>`
-    ).join('');
+
+    tabs.innerHTML =
+      CATEGORIES
+      .map(c =>
+
+        `<div
+          class="cat-tab${c===activeCategory?' active':''}"
+          onclick="setCategory('${c}')"
+        >
+          ${c}
+        </div>`
+
+      )
+      .join('');
+
   }
-  // Grid
-  const q = (document.getElementById('menu-search')||{}).value?.toLowerCase()||'';
-  let items = DB.menuItems;
-  if(activeCategory!=='All') items = items.filter(i=>i.category===activeCategory);
-  if(q) items = items.filter(i=>i.name.toLowerCase().includes(q)||i.desc.toLowerCase().includes(q));
-  const g = document.getElementById('menu-grid');
-  if(g) g.innerHTML = items.length ? items.map(foodCard).join('') : '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center;padding:3rem">No items found. Try a different search.</p>';
+
+  const q =
+    (
+      document.getElementById(
+        'menu-search'
+      ) || {}
+    ).value?.toLowerCase() || '';
+
+  let items =
+    DB.menuItems;
+
+  if(activeCategory !== 'All'){
+
+    items =
+      items.filter(
+        i => i.category === activeCategory
+      );
+
+  }
+
+  if(q){
+
+    items =
+      items.filter(
+        i =>
+          i.name.toLowerCase().includes(q) ||
+          i.desc.toLowerCase().includes(q)
+      );
+
+  }
+
+  const g =
+    document.getElementById(
+      'menu-grid'
+    );
+
+  if(g){
+
+    g.innerHTML =
+      items.length
+
+      ? items.map(foodCard).join('')
+
+      : `
+        <p
+          style="
+            color:var(--text-muted);
+            grid-column:1/-1;
+            text-align:center;
+            padding:3rem
+          "
+        >
+          No items found.
+          Try a different search.
+        </p>
+      `;
+
+  }
+
 }
 
-function setCategory(c){ activeCategory=c; renderMenu(); }
+function setCategory(c){
+
+  activeCategory = c;
+
+  renderMenu();
+
+}
 
 function foodCard(item){
-  const badgeMap={veg:'badge-veg Veg',nonveg:'badge-nonveg Non-Veg',special:'badge-special Chef Special'};
-  const [cls,label]=(badgeMap[item.badge]||'badge-veg Veg').split(' ');
-  const inCart = cart.find(c=>c.id===item.id);
+
+  const badgeMap = {
+    veg:'badge-veg Veg',
+    nonveg:'badge-nonveg Non-Veg',
+    special:'badge-special Chef Special'
+  };
+
+  const [cls,label] =
+    (
+      badgeMap[item.badge] ||
+      'badge-veg Veg'
+    ).split(' ');
+
+  const inCart =
+    cart.find(
+      c => c.id === item.id
+    );
+
   return `
+
   <div class="food-card">
-    <div class="food-card-img">${item.emoji}</div>
-    <div class="food-card-body">
-      <span class="food-badge ${cls}">${label}</span>
-      <h3>${item.name}</h3>
-      <p>${item.desc}</p>
-      <div class="food-card-footer">
-        <span class="food-price">₹${item.price}</span>
-        ${inCart
-          ? `<div style="display:flex;align-items:center;gap:8px">
-               <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
-               <span class="qty-num">${inCart.qty}</span>
-               <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
-             </div>`
-          : `<button class="add-btn" onclick="addToCart(${item.id})">+ Add</button>`
-        }
-      </div>
+
+    <div class="food-card-img">
+      ${item.emoji}
     </div>
-  </div>`;
+
+    <div class="food-card-body">
+
+      <span class="food-badge ${cls}">
+        ${label}
+      </span>
+
+      <h3>
+        ${item.name}
+      </h3>
+
+      <p>
+        ${item.desc}
+      </p>
+
+      <div class="food-card-footer">
+
+        <span class="food-price">
+          ₹${item.price}
+        </span>
+
+        ${
+          inCart
+
+          ? `
+            <div
+              style="
+                display:flex;
+                align-items:center;
+                gap:8px
+              "
+            >
+
+              <button
+                class="qty-btn"
+                onclick="changeQty(${item.id},-1)"
+              >
+                −
+              </button>
+
+              <span class="qty-num">
+                ${inCart.qty}
+              </span>
+
+              <button
+                class="qty-btn"
+                onclick="changeQty(${item.id},1)"
+              >
+                +
+              </button>
+
+            </div>
+          `
+
+          : `
+
+            <button
+              class="add-btn"
+              onclick="addToCart(${item.id})"
+            >
+              + Add
+            </button>
+
+          `
+        }
+
+      </div>
+
+    </div>
+
+  </div>
+
+  `;
+
 }
 
-/* ══════════════════════════════════════════════
-   CART
-══════════════════════════════════════════════ */
+/* CART */
+
 function addToCart(id){
-  const item = DB.menuItems.find(i=>i.id===id);
+
+  const item =
+    DB.menuItems.find(
+      i => i.id === id
+    );
+
   if(!item) return;
-  const ex = cart.find(c=>c.id===id);
-  if(ex){ ex.qty++; } else { cart.push({...item,qty:1}); }
-  saveCart(); updateCartBadge(); renderMenu(); renderHomePopular(); renderCartSidebar();
-  showToast(`${item.emoji} ${item.name} added to cart!`,'success');
+
+  const ex =
+    cart.find(
+      c => c.id === id
+    );
+
+  if(ex){
+
+    ex.qty++;
+
+  }else{
+
+    cart.push({
+      ...item,
+      qty:1
+    });
+
+  }
+
+  saveCart();
+
+  updateCartBadge();
+
+  renderMenu();
+
+  renderHomePopular();
+
+  renderCartSidebar();
+
+  showToast(
+    `${item.emoji} ${item.name} added to cart!`,
+    'success'
+  );
+
 }
 
-function changeQty(id, delta){
-  const ex = cart.find(c=>c.id===id);
+function changeQty(id,delta){
+
+  const ex =
+    cart.find(
+      c => c.id === id
+    );
+
   if(!ex) return;
+
   ex.qty += delta;
-  if(ex.qty<=0) cart = cart.filter(c=>c.id!==id);
-  saveCart(); updateCartBadge(); renderMenu(); renderHomePopular(); renderCartSidebar();
+
+  if(ex.qty <= 0){
+
+    cart =
+      cart.filter(
+        c => c.id !== id
+      );
+
+  }
+
+  saveCart();
+
+  updateCartBadge();
+
+  renderMenu();
+
+  renderHomePopular();
+
+  renderCartSidebar();
+
 }
 
-function removeFromCart(id){ cart = cart.filter(c=>c.id!==id); saveCart(); updateCartBadge(); renderMenu(); renderHomePopular(); renderCartSidebar(); }
+function removeFromCart(id){
+
+  cart =
+    cart.filter(
+      c => c.id !== id
+    );
+
+  saveCart();
+
+  updateCartBadge();
+
+  renderMenu();
+
+  renderHomePopular();
+
+  renderCartSidebar();
+
+}
 
 function updateCartBadge(){
-  const total = cart.reduce((s,c)=>s+c.qty,0);
-  document.getElementById('cart-count').textContent = total;
+
+  const total =
+    cart.reduce(
+      (s,c) => s + c.qty,
+      0
+    );
+
+  const badge =
+    document.getElementById(
+      'cart-count'
+    );
+
+  if(badge){
+
+    badge.textContent =
+      total;
+
+  }
+
 }
 
 function toggleCart(){
-  const o=document.getElementById('cart-overlay');
-  const s=document.getElementById('cart-sidebar');
+
+  const o =
+    document.getElementById(
+      'cart-overlay'
+    );
+
+  const s =
+    document.getElementById(
+      'cart-sidebar'
+    );
+
   o.classList.toggle('open');
+
   s.classList.toggle('open');
+
   renderCartSidebar();
+
 }
 
 function renderCartSidebar(){
-  const list = document.getElementById('cart-items-list');
-  const footer = document.getElementById('cart-footer');
-  if(!list) return;
-  if(!cart.length){
-    list.innerHTML=`<div class="cart-empty"><div class="icon">🛒</div><p>Your cart is empty</p><button class="btn-primary" onclick="toggleCart();showPage('menu')" style="font-size:.85rem;padding:10px 20px">Browse Menu</button></div>`;
-    footer.innerHTML='';
-    return;
-  }
-  list.innerHTML = cart.map(item=>`
-    <div class="cart-item">
-      <div class="cart-item-icon">${item.emoji}</div>
-      <div class="cart-item-info">
-        <h4>${item.name}</h4>
-        <span>₹${item.price * item.qty}</span>
-        <div class="qty-controls">
-          <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
-          <span class="qty-num">${item.qty}</span>
-          <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
-        </div>
-      </div>
-      <button class="remove-item" onclick="removeFromCart(${item.id})">🗑</button>
-    </div>`).join('');
 
-  const sub = cart.reduce((s,c)=>s+c.price*c.qty,0);
-  const del = 40; const tax = Math.round(sub*0.05);
-  footer.innerHTML=`
-    <div class="cart-subtotal"><span>Subtotal</span><span>₹${sub}</span></div>
-    <div class="cart-subtotal"><span>Delivery Fee</span><span>₹${del}</span></div>
-    <div class="cart-subtotal"><span>GST (5%)</span><span>₹${tax}</span></div>
-    <div class="cart-subtotal total"><span>Total</span><span>₹${sub+del+tax}</span></div>
-    <button class="checkout-btn" onclick="goCheckout()" ${!cart.length?'disabled':''}>Proceed to Checkout</button>`;
+  const list =
+    document.getElementById(
+      'cart-items-list'
+    );
+
+  const footer =
+    document.getElementById(
+      'cart-footer'
+    );
+
+  if(!list) return;
+
+  if(!cart.length){
+
+    list.innerHTML = `
+
+      <div class="cart-empty">
+
+        <div class="icon">
+          🛒
+        </div>
+
+        <p>
+          Your cart is empty
+        </p>
+
+        <button
+          class="btn-primary"
+          onclick="toggleCart();showPage('menu')"
+          style="
+            font-size:.85rem;
+            padding:10px 20px
+          "
+        >
+          Browse Menu
+        </button>
+
+      </div>
+
+    `;
+
+    footer.innerHTML = '';
+
+    return;
+
+  }
+
+  list.innerHTML =
+    cart.map(item => `
+
+      <div class="cart-item">
+
+        <div class="cart-item-icon">
+          ${item.emoji}
+        </div>
+
+        <div class="cart-item-info">
+
+          <h4>
+            ${item.name}
+          </h4>
+
+          <span>
+            ₹${item.price * item.qty}
+          </span>
+
+          <div class="qty-controls">
+
+            <button
+              class="qty-btn"
+              onclick="changeQty(${item.id},-1)"
+            >
+              −
+            </button>
+
+            <span class="qty-num">
+              ${item.qty}
+            </span>
+
+            <button
+              class="qty-btn"
+              onclick="changeQty(${item.id},1)"
+            >
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+        <button
+          class="remove-item"
+          onclick="removeFromCart(${item.id})"
+        >
+          🗑
+        </button>
+
+      </div>
+
+    `).join('');
+
+  const sub =
+    cart.reduce(
+      (s,c) =>
+        s + c.price * c.qty,
+      0
+    );
+
+  const del = 40;
+
+  const tax =
+    Math.round(sub * 0.05);
+
+  footer.innerHTML = `
+
+    <div class="cart-subtotal">
+
+      <span>
+        Subtotal
+      </span>
+
+      <span>
+        ₹${sub}
+      </span>
+
+    </div>
+
+    <div class="cart-subtotal">
+
+      <span>
+        Delivery Fee
+      </span>
+
+      <span>
+        ₹${del}
+      </span>
+
+    </div>
+
+    <div class="cart-subtotal">
+
+      <span>
+        GST (5%)
+      </span>
+
+      <span>
+        ₹${tax}
+      </span>
+
+    </div>
+
+    <div class="cart-subtotal total">
+
+      <span>
+        Total
+      </span>
+
+      <span>
+        ₹${sub + del + tax}
+      </span>
+
+    </div>
+
+    <button
+      class="checkout-btn"
+      onclick="goCheckout()"
+    >
+      Proceed to Checkout
+    </button>
+
+  `;
+
 }
 
 function goCheckout(){
-  if(!DB.session){ toggleCart(); showToast('Please login to checkout','error'); showPage('login'); return; }
+
+  if(!DB.session){
+
+    toggleCart();
+
+    showToast(
+      'Please login to checkout',
+      'error'
+    );
+
+    showPage('login');
+
+    return;
+
+  }
+
   toggleCart();
+
   showPage('checkout');
+
 }
 
-/* ══════════════════════════════════════════════
-   AUTH
-══════════════════════════════════════════════ */
+/* AUTH */
+
 function doLogin(){
-  const email = document.getElementById('login-email').value.trim();
-  const pw = document.getElementById('login-password').value;
-  clearErrors(['login-email','login-password']);
-  let valid=true;
-  if(!email){setError('login-email','Email is required');valid=false;}
-  if(!pw){setError('login-password','Password is required');valid=false;}
+
+  const email =
+    document
+      .getElementById('login-email')
+      .value
+      .trim();
+
+  const pw =
+    document
+      .getElementById('login-password')
+      .value;
+
+  clearErrors([
+    'login-email',
+    'login-password'
+  ]);
+
+  let valid = true;
+
+  if(!email){
+
+    setError(
+      'login-email',
+      'Email is required'
+    );
+
+    valid = false;
+
+  }
+
+  if(!pw){
+
+    setError(
+      'login-password',
+      'Password is required'
+    );
+
+    valid = false;
+
+  }
+
   if(!valid) return;
 
-  const user = DB.users.find(u=>u.email===email && u.password===hashPW(pw));
-  if(!user){ document.getElementById('login-alert').innerHTML=alertHTML('error','Invalid email or password'); return; }
-  DB.session = user;
+  const user =
+    DB.users.find(
+      u =>
+        u.email.toLowerCase() ===
+        email.toLowerCase() &&
+        u.password === hashPW(pw)
+    );
+
+  if(!user){
+
+    document
+      .getElementById('login-alert')
+      .innerHTML =
+        alertHTML(
+          'error',
+          'Invalid email or password'
+        );
+
+    return;
+
+  }
+
+  DB.session =
+    user;
+
   save('session');
-  showToast(`Welcome back, ${user.firstName}! 👋`,'success');
+
+  showToast(
+    `Welcome back, ${user.firstName}! 👋`,
+    'success'
+  );
+
   showPage('menu');
+
   updateNav();
+
 }
 
 function doRegister(){
-  const fname=document.getElementById('reg-fname').value.trim();
-  const lname=document.getElementById('reg-lname').value.trim();
-  const email=document.getElementById('reg-email').value.trim();
-  const phone=document.getElementById('reg-phone').value.trim();
-  const address=document.getElementById('reg-address').value.trim();
-  const pw=document.getElementById('reg-password').value;
-  const confirm=document.getElementById('reg-confirm').value;
-  clearErrors(['reg-fname','reg-email','reg-password','reg-confirm']);
-  let valid=true;
-  if(!fname){setError('reg-fname','First name required');valid=false;}
-  if(!email||!email.includes('@')){setError('reg-email','Valid email required');valid=false;}
-  if(pw.length<6){setError('reg-password','Min 6 characters');valid=false;}
-  if(pw!==confirm){setError('reg-confirm','Passwords do not match');valid=false;}
-  if(!valid) return;
-  if(DB.users.find(u=>u.email===email)){
-    document.getElementById('register-alert').innerHTML=alertHTML('error','Email already registered');
-    return;
+
+  const fname =
+    document
+      .getElementById('reg-fname')
+      .value
+      .trim();
+
+  const lname =
+    document
+      .getElementById('reg-lname')
+      .value
+      .trim();
+
+  const email =
+    document
+      .getElementById('reg-email')
+      .value
+      .trim();
+
+  const phone =
+    document
+      .getElementById('reg-phone')
+      .value
+      .trim();
+
+  const address =
+    document
+      .getElementById('reg-address')
+      .value
+      .trim();
+
+  const pw =
+    document
+      .getElementById('reg-password')
+      .value;
+
+  const confirm =
+    document
+      .getElementById('reg-confirm')
+      .value;
+
+  clearErrors([
+    'reg-fname',
+    'reg-email',
+    'reg-password',
+    'reg-confirm'
+  ]);
+
+  let valid = true;
+
+  if(!fname){
+
+    setError(
+      'reg-fname',
+      'First name required'
+    );
+
+    valid = false;
+
   }
-  const user={id:Date.now(),firstName:fname,lastName:lname,email,phone,address,password:hashPW(pw),isAdmin:false,createdAt:new Date().toISOString()};
+
+  if(
+    !email ||
+    !email.includes('@')
+  ){
+
+    setError(
+      'reg-email',
+      'Valid email required'
+    );
+
+    valid = false;
+
+  }
+
+  if(pw.length < 6){
+
+    setError(
+      'reg-password',
+      'Min 6 characters'
+    );
+
+    valid = false;
+
+  }
+
+  if(pw !== confirm){
+
+    setError(
+      'reg-confirm',
+      'Passwords do not match'
+    );
+
+    valid = false;
+
+  }
+
+  if(!valid) return;
+
+  if(
+    DB.users.find(
+      u =>
+        u.email.toLowerCase() ===
+        email.toLowerCase()
+    )
+  ){
+
+    document
+      .getElementById('register-alert')
+      .innerHTML =
+        alertHTML(
+          'error',
+          'Email already registered'
+        );
+
+    return;
+
+  }
+
+  const user = {
+
+    id:Date.now(),
+
+    firstName:fname,
+
+    lastName:lname,
+
+    email:email,
+
+    phone:phone,
+
+    address:address,
+
+    password:hashPW(pw),
+
+    isAdmin:false,
+
+    createdAt:
+      new Date().toISOString()
+
+  };
+
   DB.users.push(user);
+
   save('users');
-  DB.session=user; save('session');
-  showToast(`Account created! Welcome, ${fname}! 🎉`,'success');
-  showPage('menu'); updateNav();
+
+  DB.session =
+    user;
+
+  save('session');
+
+  showToast(
+    `Account created! Welcome, ${fname}! 🎉`,
+    'success'
+  );
+
+  showPage('menu');
+
+  updateNav();
+
 }
 
+/* ══════════════════════════════════════════════
+   ADMIN LOGIN
+══════════════════════════════════════════════ */
+
+/*
+  ROADKITCHEN ADMIN CREDENTIALS
+
+  Email:
+  hariprasath27114@gmail.com
+
+  Password:
+  hari2005@
+
+*/
+
+const ADMIN_EMAIL =
+  'hariprasath27114@gmail.com';
+
+const ADMIN_PASSWORD =
+  'hari2005@';
+
 function doAdminLogin(){
-  const email=document.getElementById('admin-email').value.trim();
-  const pw=document.getElementById('admin-password').value;
-  // Default admin: admin@RoadKitchen.com / admin123
-  if(email==='admin@RoadKitchen.com' && pw==='admin123'){
-    const admin={id:0,firstName:'Admin',lastName:'',email,isAdmin:true};
-    DB.session=admin; save('session');
-    showToast('Admin access granted 🔑','success');
-    showPage('admin'); updateNav(); return;
+
+  const email =
+    document
+      .getElementById('admin-email')
+      .value
+      .trim();
+
+  const pw =
+    document
+      .getElementById('admin-password')
+      .value;
+
+  const alertBox =
+    document.getElementById(
+      'admin-login-alert'
+    );
+
+  if(!email || !pw){
+
+    alertBox.innerHTML =
+      alertHTML(
+        'error',
+        'Please enter admin email and password'
+      );
+
+    return;
+
   }
-  document.getElementById('admin-login-alert').innerHTML=alertHTML('error','Invalid admin credentials');
+
+  if(
+    email.toLowerCase() ===
+      ADMIN_EMAIL.toLowerCase() &&
+    pw === ADMIN_PASSWORD
+  ){
+
+    const admin = {
+
+      id:0,
+
+      firstName:'Hari',
+
+      lastName:'Prasath',
+
+      email:ADMIN_EMAIL,
+
+      isAdmin:true
+
+    };
+
+    DB.session =
+      admin;
+
+    save('session');
+
+    showToast(
+      'Admin access granted 🔑',
+      'success'
+    );
+
+    showPage('admin');
+
+    updateNav();
+
+    return;
+
+  }
+
+  alertBox.innerHTML =
+    alertHTML(
+      'error',
+      'Invalid admin credentials'
+    );
+
 }
 
 function doLogout(){
-  DB.session=null; save('session');
-  cart=[]; saveCart(); updateCartBadge();
-  showToast('Logged out successfully','success');
-  showPage('home'); updateNav();
+
+  DB.session =
+    null;
+
+  save('session');
+
+  cart = [];
+
+  saveCart();
+
+  updateCartBadge();
+
+  showToast(
+    'Logged out successfully',
+    'success'
+  );
+
+  showPage('home');
+
+  updateNav();
+
 }
 
-function hashPW(pw){ return btoa(pw+':ff_salt_2025'); }
+function hashPW(pw){
 
-/* ══════════════════════════════════════════════
-   CHECKOUT
-══════════════════════════════════════════════ */
+  return btoa(
+    pw + ':ff_salt_2025'
+  );
+
+}
+
+/* CHECKOUT */
+
 function renderCheckout(){
-  // Pre-fill from session
+
   if(DB.session){
-    document.getElementById('co-name').value=`${DB.session.firstName||''} ${DB.session.lastName||''}`.trim();
-    document.getElementById('co-email').value=DB.session.email||'';
-    document.getElementById('co-phone').value=DB.session.phone||'';
-    document.getElementById('co-address').value=DB.session.address||'';
+
+    document
+      .getElementById('co-name')
+      .value =
+      `${DB.session.firstName || ''} ${DB.session.lastName || ''}`
+      .trim();
+
+    document
+      .getElementById('co-email')
+      .value =
+      DB.session.email || '';
+
+    document
+      .getElementById('co-phone')
+      .value =
+      DB.session.phone || '';
+
+    document
+      .getElementById('co-address')
+      .value =
+      DB.session.address || '';
+
   }
+
   renderCheckoutSummary();
-  selectPayment(document.querySelector('.pay-method'),'card');
+
+  selectPayment(
+    document.querySelector('.pay-method'),
+    'card'
+  );
+
 }
 
 function renderCheckoutSummary(){
-  const sub=cart.reduce((s,c)=>s+c.price*c.qty,0);
-  const del=40,tax=Math.round(sub*.05);
-  const s=document.getElementById('checkout-summary');
-  if(s) s.innerHTML=cart.map(c=>`<div class="summary-item"><span>${c.emoji} ${c.name} ×${c.qty}</span><span>₹${c.price*c.qty}</span></div>`).join('');
-  const t=document.getElementById('checkout-totals');
-  if(t) t.innerHTML=`
-    <div class="summary-item"><span>Subtotal</span><span>₹${sub}</span></div>
-    <div class="summary-item"><span>Delivery</span><span>₹${del}</span></div>
-    <div class="summary-item"><span>GST (5%)</span><span>₹${tax}</span></div>
-    <div class="summary-total"><span>Grand Total</span><span>₹${sub+del+tax}</span></div>`;
+
+  const sub =
+    cart.reduce(
+      (s,c) =>
+        s + c.price * c.qty,
+      0
+    );
+
+  const del = 40;
+
+  const tax =
+    Math.round(sub * .05);
+
+  const s =
+    document.getElementById(
+      'checkout-summary'
+    );
+
+  if(s){
+
+    s.innerHTML =
+      cart.map(c => `
+
+        <div class="summary-item">
+
+          <span>
+            ${c.emoji}
+            ${c.name}
+            ×${c.qty}
+          </span>
+
+          <span>
+            ₹${c.price * c.qty}
+          </span>
+
+        </div>
+
+      `).join('');
+
+  }
+
+  const t =
+    document.getElementById(
+      'checkout-totals'
+    );
+
+  if(t){
+
+    t.innerHTML = `
+
+      <div class="summary-item">
+
+        <span>
+          Subtotal
+        </span>
+
+        <span>
+          ₹${sub}
+        </span>
+
+      </div>
+
+      <div class="summary-item">
+
+        <span>
+          Delivery
+        </span>
+
+        <span>
+          ₹${del}
+        </span>
+
+      </div>
+
+      <div class="summary-item">
+
+        <span>
+          GST (5%)
+        </span>
+
+        <span>
+          ₹${tax}
+        </span>
+
+      </div>
+
+      <div class="summary-total">
+
+        <span>
+          Grand Total
+        </span>
+
+        <span>
+          ₹${sub + del + tax}
+        </span>
+
+      </div>
+
+    `;
+
+  }
+
 }
 
-function selectPayment(el, method){
-  document.querySelectorAll('.pay-method').forEach(m=>m.classList.remove('active'));
-  if(el) el.classList.add('active');
-  selectedPayment = method;
-  const d=document.getElementById('payment-details');
-  if(!d) return;
-  if(method==='card'){
-    d.innerHTML=`
-      <div class="form-group"><label>Card Number</label><input placeholder="4242 4242 4242 4242" maxlength="19" /></div>
-      <div class="form-row">
-        <div class="form-group"><label>Expiry</label><input placeholder="MM / YY" /></div>
-        <div class="form-group"><label>CVV</label><input placeholder="123" type="password" maxlength="3" /></div>
-      </div>
-      <div class="form-group"><label>Name on Card</label><input placeholder="As printed on card" /></div>`;
-  } else if(method==='upi'){
-    d.innerHTML=`<div class="form-group"><label>UPI ID</label><input placeholder="yourname@upi" /></div>`;
-  } else {
-    d.innerHTML=`<div class="alert alert-info">💵 Pay cash when your order arrives. No prepayment needed.</div>`;
+function selectPayment(el,method){
+
+  document
+    .querySelectorAll('.pay-method')
+    .forEach(
+      m => m.classList.remove('active')
+    );
+
+  if(el){
+
+    el.classList.add('active');
+
   }
+
+  selectedPayment =
+    method;
+
+  const d =
+    document.getElementById(
+      'payment-details'
+    );
+
+  if(!d) return;
+
+  if(method === 'card'){
+
+    d.innerHTML = `
+
+      <div class="form-group">
+
+        <label>
+          Card Number
+        </label>
+
+        <input
+          placeholder="4242 4242 4242 4242"
+          maxlength="19"
+        />
+
+      </div>
+
+      <div class="form-row">
+
+        <div class="form-group">
+
+          <label>
+            Expiry
+          </label>
+
+          <input
+            placeholder="MM / YY"
+          />
+
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            CVV
+          </label>
+
+          <input
+            placeholder="123"
+            type="password"
+            maxlength="3"
+          />
+
+        </div>
+
+      </div>
+
+      <div class="form-group">
+
+        <label>
+          Name on Card
+        </label>
+
+        <input
+          placeholder="As printed on card"
+        />
+
+      </div>
+
+    `;
+
+  }else if(method === 'upi'){
+
+    d.innerHTML = `
+
+      <div class="form-group">
+
+        <label>
+          UPI ID
+        </label>
+
+        <input
+          placeholder="yourname@upi"
+        />
+
+      </div>
+
+    `;
+
+  }else{
+
+    d.innerHTML = `
+
+      <div class="alert alert-info">
+
+        💵 Pay cash when your order arrives.
+        No prepayment needed.
+
+      </div>
+
+    `;
+
+  }
+
 }
 
 function placeOrder(){
-  if(!cart.length){ showToast('Your cart is empty!','error'); return; }
-  const name=document.getElementById('co-name').value.trim();
-  const addr=document.getElementById('co-address').value.trim();
-  if(!name||!addr){ showToast('Please fill delivery details','error'); return; }
 
-  const sub=cart.reduce((s,c)=>s+c.price*c.qty,0);
-  const del=40,tax=Math.round(sub*.05);
-  const orderId='FF-'+Date.now().toString().slice(-6);
-  const order={
-    id:orderId,userId:DB.session?.id,userName:name,
-    items:[...cart],subtotal:sub,delivery:del,tax,total:sub+del+tax,
-    address:addr,paymentMethod:selectedPayment,
-    status:'Confirmed',createdAt:new Date().toISOString(),
-    phone:document.getElementById('co-phone').value||'',
+  if(!cart.length){
+
+    showToast(
+      'Your cart is empty!',
+      'error'
+    );
+
+    return;
+
+  }
+
+  const name =
+    document
+      .getElementById('co-name')
+      .value
+      .trim();
+
+  const addr =
+    document
+      .getElementById('co-address')
+      .value
+      .trim();
+
+  if(!name || !addr){
+
+    showToast(
+      'Please fill delivery details',
+      'error'
+    );
+
+    return;
+
+  }
+
+  const sub =
+    cart.reduce(
+      (s,c) =>
+        s + c.price * c.qty,
+      0
+    );
+
+  const del = 40;
+
+  const tax =
+    Math.round(sub * .05);
+
+  const orderId =
+    'FF-' +
+    Date.now()
+      .toString()
+      .slice(-6);
+
+  const order = {
+
+    id:orderId,
+
+    userId:DB.session?.id,
+
+    userName:name,
+
+    items:[...cart],
+
+    subtotal:sub,
+
+    delivery:del,
+
+    tax:tax,
+
+    total:
+      sub + del + tax,
+
+    address:addr,
+
+    paymentMethod:
+      selectedPayment,
+
+    status:'Confirmed',
+
+    createdAt:
+      new Date().toISOString(),
+
+    phone:
+      document
+        .getElementById('co-phone')
+        .value || ''
+
   };
-  DB.orders.push(order); save('orders');
-  cart=[]; saveCart(); updateCartBadge();
 
-  // Success screen
-  document.getElementById('success-order-id').textContent='ORDER #'+orderId;
-  document.getElementById('track-steps').innerHTML=renderTrackSteps('Confirmed');
+  DB.orders.push(order);
+
+  save('orders');
+
+  cart = [];
+
+  saveCart();
+
+  updateCartBadge();
+
+  document
+    .getElementById(
+      'success-order-id'
+    )
+    .textContent =
+      'ORDER #' + orderId;
+
+  document
+    .getElementById(
+      'track-steps'
+    )
+    .innerHTML =
+      renderTrackSteps(
+        'Confirmed'
+      );
+
   showPage('success');
+
 }
 
 function renderTrackSteps(currentStatus){
-  const steps=[
-    {icon:'✅',label:'Order Confirmed',sub:'We received your order'},
-    {icon:'👨‍🍳',label:'Preparing',sub:'Chef is cooking your meal'},
-    {icon:'🛵',label:'Out for Delivery',sub:'Rider picked up your order'},
-    {icon:'🏠',label:'Delivered',sub:'Enjoy your meal!'},
+
+  const steps = [
+
+    {
+      icon:'✅',
+      label:'Order Confirmed',
+      sub:'We received your order'
+    },
+
+    {
+      icon:'👨‍🍳',
+      label:'Preparing',
+      sub:'Chef is cooking your meal'
+    },
+
+    {
+      icon:'🛵',
+      label:'Out for Delivery',
+      sub:'Rider picked up your order'
+    },
+
+    {
+      icon:'🏠',
+      label:'Delivered',
+      sub:'Enjoy your meal!'
+    }
+
   ];
-  const statusIndex={'Confirmed':0,'Preparing':1,'Out for Delivery':2,'Delivered':3,'Cancelled':-1};
-  const ci=statusIndex[currentStatus]??0;
-  return steps.map((s,i)=>{
-    const cls = i<ci?'done':i===ci?'active':'pending';
-    return `<div class="track-step">
-      <div class="step-dot ${cls}">${s.icon}</div>
-      <div class="step-info"><h4>${s.label}</h4><p>${s.sub}</p></div>
-    </div>`;
-  }).join('');
-}
 
-/* ══════════════════════════════════════════════
-   MY ORDERS
-══════════════════════════════════════════════ */
-function renderOrders(){
-  const c=document.getElementById('orders-list');
-  if(!c) return;
-  const myOrders = DB.orders.filter(o=>o.userId===DB.session?.id).reverse();
-  if(!myOrders.length){
-    c.innerHTML=`<div style="text-align:center;padding:4rem;color:var(--text-muted)">
-      <div style="font-size:4rem;margin-bottom:1rem">📭</div>
-      <h3>No orders yet</h3>
-      <p>Place your first order!</p>
-      <button class="btn-primary" style="margin-top:1rem" onclick="showPage('menu')">Browse Menu</button>
-    </div>`;
-    return;
-  }
-  c.innerHTML = myOrders.map(o=>`
-    <div class="checkout-section" style="margin-bottom:1.25rem">
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem">
-        <div>
-          <h3 style="font-size:1rem;margin-bottom:.25rem;border:none;padding:0">#${o.id}</h3>
-          <span style="font-size:.8rem;color:var(--text-muted)">${new Date(o.createdAt).toLocaleString()}</span>
+  const statusIndex = {
+
+    Confirmed:0,
+
+    Preparing:1,
+
+    'Out for Delivery':2,
+
+    Delivered:3,
+
+    Cancelled:-1
+
+  };
+
+  const ci =
+    statusIndex[currentStatus] ?? 0;
+
+  return steps.map(
+    (s,i)=>{
+
+      const cls =
+        i < ci
+          ? 'done'
+          : i === ci
+            ? 'active'
+            : 'pending';
+
+      return `
+
+        <div class="track-step">
+
+          <div class="step-dot ${cls}">
+            ${s.icon}
+          </div>
+
+          <div class="step-info">
+
+            <h4>
+              ${s.label}
+            </h4>
+
+            <p>
+              ${s.sub}
+            </p>
+
+          </div>
+
         </div>
-        <span class="status-badge status-${o.status.toLowerCase().replace(/ /g,'-')}">${o.status}</span>
-      </div>
-      <div style="margin:1rem 0;border-top:1px solid var(--cream-dark);padding-top:1rem">
-        ${o.items.map(i=>`<div style="display:flex;justify-content:space-between;padding:.3rem 0;font-size:.9rem"><span>${i.emoji} ${i.name} ×${i.qty}</span><span>₹${i.price*i.qty}</span></div>`).join('')}
-      </div>
-      <div style="display:flex;justify-content:space-between;font-weight:700;border-top:1px solid var(--cream-dark);padding-top:.75rem">
-        <span>Total</span><span style="color:var(--terra)">₹${o.total}</span>
-      </div>
-      <div style="margin-top:1rem">${renderTrackSteps(o.status)}</div>
-    </div>`).join('');
+
+      `;
+
+    }
+  ).join('');
+
 }
 
-/* ══════════════════════════════════════════════
-   PROFILE
-══════════════════════════════════════════════ */
+/* MY ORDERS */
+
+function renderOrders(){
+
+  const c =
+    document.getElementById(
+      'orders-list'
+    );
+
+  if(!c) return;
+
+  const myOrders =
+    DB.orders
+      .filter(
+        o =>
+          o.userId ===
+          DB.session?.id
+      )
+      .reverse();
+
+  if(!myOrders.length){
+
+    c.innerHTML = `
+
+      <div
+        style="
+          text-align:center;
+          padding:4rem;
+          color:var(--text-muted)
+        "
+      >
+
+        <div
+          style="
+            font-size:4rem;
+            margin-bottom:1rem
+          "
+        >
+          📭
+        </div>
+
+        <h3>
+          No orders yet
+        </h3>
+
+        <p>
+          Place your first order!
+        </p>
+
+        <button
+          class="btn-primary"
+          style="margin-top:1rem"
+          onclick="showPage('menu')"
+        >
+          Browse Menu
+        </button>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+  c.innerHTML =
+    myOrders.map(o => `
+
+      <div
+        class="checkout-section"
+        style="margin-bottom:1.25rem"
+      >
+
+        <div
+          style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            flex-wrap:wrap;
+            gap:.5rem
+          "
+        >
+
+          <div>
+
+            <h3
+              style="
+                font-size:1rem;
+                margin-bottom:.25rem;
+                border:none;
+                padding:0
+              "
+            >
+              #${o.id}
+            </h3>
+
+            <span
+              style="
+                font-size:.8rem;
+                color:var(--text-muted)
+              "
+            >
+              ${new Date(
+                o.createdAt
+              ).toLocaleString()}
+            </span>
+
+          </div>
+
+          <span
+            class="status-badge status-${o.status.toLowerCase().replace(/ /g,'-')}"
+          >
+            ${o.status}
+          </span>
+
+        </div>
+
+        <div
+          style="
+            margin:1rem 0;
+            border-top:1px solid var(--cream-dark);
+            padding-top:1rem
+          "
+        >
+
+          ${o.items.map(i => `
+
+            <div
+              style="
+                display:flex;
+                justify-content:space-between;
+                padding:.3rem 0;
+                font-size:.9rem
+              "
+            >
+
+              <span>
+                ${i.emoji}
+                ${i.name}
+                ×${i.qty}
+              </span>
+
+              <span>
+                ₹${i.price * i.qty}
+              </span>
+
+            </div>
+
+          `).join('')}
+
+        </div>
+
+        <div
+          style="
+            display:flex;
+            justify-content:space-between;
+            font-weight:700;
+            border-top:1px solid var(--cream-dark);
+            padding-top:.75rem
+          "
+        >
+
+          <span>
+            Total
+          </span>
+
+          <span
+            style="color:var(--terra)"
+          >
+            ₹${o.total}
+          </span>
+
+        </div>
+
+        <div style="margin-top:1rem">
+
+          ${renderTrackSteps(o.status)}
+
+        </div>
+
+      </div>
+
+    `).join('');
+
+}
+
+/* PROFILE */
+
 function renderProfile(){
-  const u=DB.session;
-  if(!u){showPage('login');return;}
-  const ph=document.getElementById('profile-header');
-  if(ph) ph.innerHTML=`
-    <div class="profile-avatar">${(u.firstName||'A')[0].toUpperCase()}</div>
-    <div><h2>${u.firstName} ${u.lastName||''}</h2><p>${u.email}</p><p style="margin-top:.25rem">${u.phone||''}</p></div>`;
-  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v||'';};
-  set('pf-fname',u.firstName); set('pf-lname',u.lastName);
-  set('pf-phone',u.phone); set('pf-address',u.address);
+
+  const u =
+    DB.session;
+
+  if(!u){
+
+    showPage('login');
+
+    return;
+
+  }
+
+  const ph =
+    document.getElementById(
+      'profile-header'
+    );
+
+  if(ph){
+
+    ph.innerHTML = `
+
+      <div class="profile-avatar">
+
+        ${(u.firstName || 'A')[0]
+          .toUpperCase()}
+
+      </div>
+
+      <div>
+
+        <h2>
+          ${u.firstName}
+          ${u.lastName || ''}
+        </h2>
+
+        <p>
+          ${u.email}
+        </p>
+
+        <p
+          style="margin-top:.25rem"
+        >
+          ${u.phone || ''}
+        </p>
+
+      </div>
+
+    `;
+
+  }
+
+  const set =
+    (id,v)=>{
+
+      const el =
+        document.getElementById(id);
+
+      if(el){
+
+        el.value =
+          v || '';
+
+      }
+
+    };
+
+  set(
+    'pf-fname',
+    u.firstName
+  );
+
+  set(
+    'pf-lname',
+    u.lastName
+  );
+
+  set(
+    'pf-phone',
+    u.phone
+  );
+
+  set(
+    'pf-address',
+    u.address
+  );
+
 }
 
 function saveProfile(){
+
   if(!DB.session) return;
-  DB.session.firstName=document.getElementById('pf-fname').value.trim();
-  DB.session.lastName=document.getElementById('pf-lname').value.trim();
-  DB.session.phone=document.getElementById('pf-phone').value.trim();
-  DB.session.address=document.getElementById('pf-address').value.trim();
-  const idx=DB.users.findIndex(u=>u.id===DB.session.id);
-  if(idx>-1){ DB.users[idx]={...DB.users[idx],...DB.session}; save('users'); }
+
+  DB.session.firstName =
+    document
+      .getElementById(
+        'pf-fname'
+      )
+      .value
+      .trim();
+
+  DB.session.lastName =
+    document
+      .getElementById(
+        'pf-lname'
+      )
+      .value
+      .trim();
+
+  DB.session.phone =
+    document
+      .getElementById(
+        'pf-phone'
+      )
+      .value
+      .trim();
+
+  DB.session.address =
+    document
+      .getElementById(
+        'pf-address'
+      )
+      .value
+      .trim();
+
+  const idx =
+    DB.users.findIndex(
+      u =>
+        u.id ===
+        DB.session.id
+    );
+
+  if(idx > -1){
+
+    DB.users[idx] = {
+      ...DB.users[idx],
+      ...DB.session
+    };
+
+    save('users');
+
+  }
+
   save('session');
-  showToast('Profile updated ✅','success');
+
+  showToast(
+    'Profile updated ✅',
+    'success'
+  );
+
   renderProfile();
+
 }
 
 function changePassword(){
-  const pw=document.getElementById('pf-pw').value;
-  const pw2=document.getElementById('pf-pw2').value;
-  if(pw.length<6){showToast('Password must be at least 6 characters','error');return;}
-  if(pw!==pw2){showToast('Passwords do not match','error');return;}
-  const idx=DB.users.findIndex(u=>u.id===DB.session?.id);
-  if(idx>-1){ DB.users[idx].password=hashPW(pw); save('users'); }
-  showToast('Password changed successfully ✅','success');
+
+  const pw =
+    document
+      .getElementById(
+        'pf-pw'
+      )
+      .value;
+
+  const pw2 =
+    document
+      .getElementById(
+        'pf-pw2'
+      )
+      .value;
+
+  if(pw.length < 6){
+
+    showToast(
+      'Password must be at least 6 characters',
+      'error'
+    );
+
+    return;
+
+  }
+
+  if(pw !== pw2){
+
+    showToast(
+      'Passwords do not match',
+      'error'
+    );
+
+    return;
+
+  }
+
+  const idx =
+    DB.users.findIndex(
+      u =>
+        u.id ===
+        DB.session?.id
+    );
+
+  if(idx > -1){
+
+    DB.users[idx].password =
+      hashPW(pw);
+
+    save('users');
+
+  }
+
+  showToast(
+    'Password changed successfully ✅',
+    'success'
+  );
+
 }
 
-/* ══════════════════════════════════════════════
-   ADMIN
-══════════════════════════════════════════════ */
-function adminNav(section, el){
-  document.querySelectorAll('.admin-nav-item').forEach(n=>n.classList.remove('active'));
-  if(el) el.classList.add('active');
-  currentAdminSection=section;
+/* ADMIN */
+
+function adminNav(section,el){
+
+  document
+    .querySelectorAll(
+      '.admin-nav-item'
+    )
+    .forEach(
+      n =>
+        n.classList.remove(
+          'active'
+        )
+    );
+
+  if(el){
+
+    el.classList.add(
+      'active'
+    );
+
+  }
+
+  currentAdminSection =
+    section;
+
   renderAdmin(section);
+
 }
 
 function renderAdmin(section){
-  const c=document.getElementById('admin-content');
+
+  const c =
+    document.getElementById(
+      'admin-content'
+    );
+
   if(!c) return;
-  if(section==='overview') c.innerHTML=adminOverview();
-  if(section==='menu-mgmt') c.innerHTML=adminMenuMgmt();
-  if(section==='orders-mgmt') c.innerHTML=adminOrdersMgmt();
-  if(section==='customers') c.innerHTML=adminCustomers();
+
+  if(section === 'overview'){
+
+    c.innerHTML =
+      adminOverview();
+
+  }
+
+  if(section === 'menu-mgmt'){
+
+    c.innerHTML =
+      adminMenuMgmt();
+
+  }
+
+  if(section === 'orders-mgmt'){
+
+    c.innerHTML =
+      adminOrdersMgmt();
+
+  }
+
+  if(section === 'customers'){
+
+    c.innerHTML =
+      adminCustomers();
+
+  }
+
 }
 
 function adminOverview(){
-  const totalOrders=DB.orders.length;
-  const revenue=DB.orders.reduce((s,o)=>s+o.total,0);
-  const customers=DB.users.length;
-  const pending=DB.orders.filter(o=>o.status==='Confirmed').length;
+
+  const totalOrders =
+    DB.orders.length;
+
+  const revenue =
+    DB.orders.reduce(
+      (s,o) =>
+        s + o.total,
+      0
+    );
+
+  const customers =
+    DB.users.length;
+
+  const pending =
+    DB.orders.filter(
+      o =>
+        o.status ===
+        'Confirmed'
+    ).length;
+
   return `
-    <div class="admin-topbar"><h2>Dashboard Overview</h2><span style="color:var(--text-muted);font-size:.9rem">${new Date().toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</span></div>
-    <div class="stat-cards">
-      <div class="stat-card"><h3>${totalOrders}</h3><p>Total Orders</p></div>
-      <div class="stat-card terra"><h3>₹${revenue.toLocaleString()}</h3><p>Total Revenue</p></div>
-      <div class="stat-card sage"><h3>${customers}</h3><p>Registered Customers</p></div>
-      <div class="stat-card purple"><h3>${pending}</h3><p>Pending Orders</p></div>
+
+    <div class="admin-topbar">
+
+      <h2>
+        Dashboard Overview
+      </h2>
+
+      <span
+        style="
+          color:var(--text-muted);
+          font-size:.9rem
+        "
+      >
+        ${new Date().toLocaleDateString(
+          'en-IN',
+          {
+            weekday:'long',
+            year:'numeric',
+            month:'long',
+            day:'numeric'
+          }
+        )}
+      </span>
+
     </div>
-    <div class="admin-table-wrap">
-      <div style="padding:1.25rem;border-bottom:1px solid var(--cream-dark);display:flex;justify-content:space-between;align-items:center">
-        <h3 style="font-size:1rem">Recent Orders</h3>
+
+    <div class="stat-cards">
+
+      <div class="stat-card">
+
+        <h3>
+          ${totalOrders}
+        </h3>
+
+        <p>
+          Total Orders
+        </p>
+
       </div>
+
+      <div class="stat-card terra">
+
+        <h3>
+          ₹${revenue.toLocaleString()}
+        </h3>
+
+        <p>
+          Total Revenue
+        </p>
+
+      </div>
+
+      <div class="stat-card sage">
+
+        <h3>
+          ${customers}
+        </h3>
+
+        <p>
+          Registered Customers
+        </p>
+
+      </div>
+
+      <div class="stat-card purple">
+
+        <h3>
+          ${pending}
+        </h3>
+
+        <p>
+          Pending Orders
+        </p>
+
+      </div>
+
+    </div>
+
+    <div class="admin-table-wrap">
+
+      <div
+        style="
+          padding:1.25rem;
+          border-bottom:1px solid var(--cream-dark);
+          display:flex;
+          justify-content:space-between;
+          align-items:center
+        "
+      >
+
+        <h3
+          style="font-size:1rem"
+        >
+          Recent Orders
+        </h3>
+
+      </div>
+
       <table class="admin-table">
-        <thead><tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Date</th></tr></thead>
-        <tbody>${DB.orders.slice(-10).reverse().map(o=>`
+
+        <thead>
+
           <tr>
-            <td><strong>#${o.id}</strong></td>
-            <td>${o.userName}</td>
-            <td>${o.items.length} item(s)</td>
-            <td>₹${o.total}</td>
-            <td><span class="status-badge status-${o.status.toLowerCase().replace(/ /g,'-')}">${o.status}</span></td>
-            <td>${new Date(o.createdAt).toLocaleDateString()}</td>
-          </tr>`).join('')||'<tr><td colspan="6" style="text-align:center;color:var(--text-muted)">No orders yet</td></tr>'}
+
+            <th>
+              Order ID
+            </th>
+
+            <th>
+              Customer
+            </th>
+
+            <th>
+              Items
+            </th>
+
+            <th>
+              Total
+            </th>
+
+            <th>
+              Status
+            </th>
+
+            <th>
+              Date
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          ${
+            DB.orders
+              .slice(-10)
+              .reverse()
+              .map(o => `
+
+                <tr>
+
+                  <td>
+                    <strong>
+                      #${o.id}
+                    </strong>
+                  </td>
+
+                  <td>
+                    ${o.userName}
+                  </td>
+
+                  <td>
+                    ${o.items.length}
+                    item(s)
+                  </td>
+
+                  <td>
+                    ₹${o.total}
+                  </td>
+
+                  <td>
+
+                    <span
+                      class="
+                        status-badge
+                        status-${o.status
+                          .toLowerCase()
+                          .replace(/ /g,'-')}
+                      "
+                    >
+                      ${o.status}
+                    </span>
+
+                  </td>
+
+                  <td>
+                    ${new Date(
+                      o.createdAt
+                    ).toLocaleDateString()}
+                  </td>
+
+                </tr>
+
+              `).join('')
+
+            ||
+
+            `
+              <tr>
+
+                <td
+                  colspan="6"
+                  style="
+                    text-align:center;
+                    color:var(--text-muted)
+                  "
+                >
+                  No orders yet
+                </td>
+
+              </tr>
+            `
+          }
+
         </tbody>
+
       </table>
-    </div>`;
+
+    </div>
+
+  `;
+
 }
 
 function adminMenuMgmt(){
+
   return `
+
     <div class="admin-topbar">
-      <h2>Menu Management</h2>
-      <button class="btn-add" onclick="openAddItemModal()">+ Add Item</button>
+
+      <h2>
+        Menu Management
+      </h2>
+
+      <button
+        class="btn-add"
+        onclick="openAddItemModal()"
+      >
+        + Add Item
+      </button>
+
     </div>
+
     <div class="admin-table-wrap">
+
       <table class="admin-table">
-        <thead><tr><th>Item</th><th>Category</th><th>Price</th><th>Type</th><th>Popular</th><th>Actions</th></tr></thead>
-        <tbody>${DB.menuItems.map(item=>`
+
+        <thead>
+
           <tr>
-            <td><span style="font-size:1.5rem">${item.emoji}</span> <strong>${item.name}</strong></td>
-            <td>${item.category}</td>
-            <td>₹${item.price}</td>
-            <td><span class="status-badge ${item.badge==='veg'?'status-delivered':item.badge==='nonveg'?'status-preparing':'status-confirmed'}">${item.badge}</span></td>
-            <td>${item.popular?'⭐':'—'}</td>
-            <td>
-              <button class="btn-sm btn-edit" onclick="openEditItemModal(${item.id})">Edit</button>
-              <button class="btn-sm btn-delete" onclick="deleteMenuItem(${item.id})">Delete</button>
-            </td>
-          </tr>`).join('')}
+
+            <th>
+              Item
+            </th>
+
+            <th>
+              Category
+            </th>
+
+            <th>
+              Price
+            </th>
+
+            <th>
+              Type
+            </th>
+
+            <th>
+              Popular
+            </th>
+
+            <th>
+              Actions
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          ${DB.menuItems.map(item => `
+
+            <tr>
+
+              <td>
+
+                <span
+                  style="font-size:1.5rem"
+                >
+                  ${item.emoji}
+                </span>
+
+                <strong>
+                  ${item.name}
+                </strong>
+
+              </td>
+
+              <td>
+                ${item.category}
+              </td>
+
+              <td>
+                ₹${item.price}
+              </td>
+
+              <td>
+
+                <span
+                  class="
+                    status-badge
+                    ${
+                      item.badge === 'veg'
+                      ? 'status-delivered'
+                      : item.badge === 'nonveg'
+                      ? 'status-preparing'
+                      : 'status-confirmed'
+                    }
+                  "
+                >
+                  ${item.badge}
+                </span>
+
+              </td>
+
+              <td>
+                ${item.popular ? '⭐' : '—'}
+              </td>
+
+              <td>
+
+                <button
+                  class="btn-sm btn-edit"
+                  onclick="openEditItemModal(${item.id})"
+                >
+                  Edit
+                </button>
+
+                <button
+                  class="btn-sm btn-delete"
+                  onclick="deleteMenuItem(${item.id})"
+                >
+                  Delete
+                </button>
+
+              </td>
+
+            </tr>
+
+          `).join('')}
+
         </tbody>
+
       </table>
-    </div>`;
+
+    </div>
+
+  `;
+
 }
 
 function adminOrdersMgmt(){
+
   return `
-    <div class="admin-topbar"><h2>Order Management</h2></div>
+
+    <div class="admin-topbar">
+
+      <h2>
+        Order Management
+      </h2>
+
+    </div>
+
     <div class="admin-table-wrap">
+
       <table class="admin-table">
-        <thead><tr><th>Order ID</th><th>Customer</th><th>Phone</th><th>Items</th><th>Total</th><th>Payment</th><th>Status</th><th>Actions</th></tr></thead>
-        <tbody>${DB.orders.slice().reverse().map(o=>`
+
+        <thead>
+
           <tr>
-            <td><strong>#${o.id}</strong><br><small style="color:var(--text-muted)">${new Date(o.createdAt).toLocaleDateString()}</small></td>
-            <td>${o.userName}</td>
-            <td>${o.phone||'—'}</td>
-            <td>${o.items.map(i=>`${i.emoji}${i.name}×${i.qty}`).join(', ')}</td>
-            <td><strong>₹${o.total}</strong></td>
-            <td style="text-transform:capitalize">${o.paymentMethod}</td>
-            <td>
-              <select onchange="updateOrderStatus('${o.id}',this.value)" style="padding:4px 8px;border:1px solid var(--cream-dark);border-radius:8px;font-size:.8rem">
-                ${['Confirmed','Preparing','Out for Delivery','Delivered','Cancelled'].map(s=>`<option${s===o.status?' selected':''}>${s}</option>`).join('')}
-              </select>
-            </td>
-            <td><span class="status-badge status-${o.status.toLowerCase().replace(/ /g,'-')}">${o.status}</span></td>
-          </tr>`).join('')||'<tr><td colspan="8" style="text-align:center;color:var(--text-muted)">No orders yet</td></tr>'}
+
+            <th>
+              Order ID
+            </th>
+
+            <th>
+              Customer
+            </th>
+
+            <th>
+              Phone
+            </th>
+
+            <th>
+              Items
+            </th>
+
+            <th>
+              Total
+            </th>
+
+            <th>
+              Payment
+            </th>
+
+            <th>
+              Status
+            </th>
+
+            <th>
+              Actions
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          ${
+            DB.orders
+              .slice()
+              .reverse()
+              .map(o => `
+
+                <tr>
+
+                  <td>
+
+                    <strong>
+                      #${o.id}
+                    </strong>
+
+                    <br>
+
+                    <small
+                      style="
+                        color:var(--text-muted)
+                      "
+                    >
+                      ${new Date(
+                        o.createdAt
+                      ).toLocaleDateString()}
+                    </small>
+
+                  </td>
+
+                  <td>
+                    ${o.userName}
+                  </td>
+
+                  <td>
+                    ${o.phone || '—'}
+                  </td>
+
+                  <td>
+
+                    ${o.items
+                      .map(
+                        i =>
+                          `${i.emoji}${i.name}×${i.qty}`
+                      )
+                      .join(', ')}
+
+                  </td>
+
+                  <td>
+
+                    <strong>
+                      ₹${o.total}
+                    </strong>
+
+                  </td>
+
+                  <td
+                    style="
+                      text-transform:capitalize
+                    "
+                  >
+                    ${o.paymentMethod}
+                  </td>
+
+                  <td>
+
+                    <select
+                      onchange="
+                        updateOrderStatus(
+                          '${o.id}',
+                          this.value
+                        )
+                      "
+                      style="
+                        padding:4px 8px;
+                        border:1px solid var(--cream-dark);
+                        border-radius:8px;
+                        font-size:.8rem
+                      "
+                    >
+
+                      ${
+                        [
+                          'Confirmed',
+                          'Preparing',
+                          'Out for Delivery',
+                          'Delivered',
+                          'Cancelled'
+                        ]
+                        .map(
+                          s =>
+                            `<option
+                              ${s===o.status?'selected':''}
+                            >
+                              ${s}
+                            </option>`
+                        )
+                        .join('')
+                      }
+
+                    </select>
+
+                  </td>
+
+                  <td>
+
+                    <span
+                      class="
+                        status-badge
+                        status-${o.status
+                          .toLowerCase()
+                          .replace(/ /g,'-')}
+                      "
+                    >
+                      ${o.status}
+                    </span>
+
+                  </td>
+
+                </tr>
+
+              `).join('')
+
+            ||
+
+            `
+              <tr>
+
+                <td
+                  colspan="8"
+                  style="
+                    text-align:center;
+                    color:var(--text-muted)
+                  "
+                >
+                  No orders yet
+                </td>
+
+              </tr>
+            `
+          }
+
         </tbody>
+
       </table>
-    </div>`;
+
+    </div>
+
+  `;
+
 }
 
 function adminCustomers(){
+
   return `
-    <div class="admin-topbar"><h2>Customer Database</h2></div>
+
+    <div class="admin-topbar">
+
+      <h2>
+        Customer Database
+      </h2>
+
+    </div>
+
     <div class="admin-table-wrap">
+
       <table class="admin-table">
-        <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Phone</th><th>Address</th><th>Orders</th><th>Joined</th></tr></thead>
-        <tbody>${DB.users.map((u,i)=>`
+
+        <thead>
+
           <tr>
-            <td>${i+1}</td>
-            <td><strong>${u.firstName} ${u.lastName||''}</strong></td>
-            <td>${u.email}</td>
-            <td>${u.phone||'—'}</td>
-            <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${u.address||'—'}</td>
-            <td>${DB.orders.filter(o=>o.userId===u.id).length}</td>
-            <td>${u.createdAt?new Date(u.createdAt).toLocaleDateString():'—'}</td>
-          </tr>`).join('')||'<tr><td colspan="7" style="text-align:center;color:var(--text-muted)">No customers yet</td></tr>'}
+
+            <th>
+              #
+            </th>
+
+            <th>
+              Name
+            </th>
+
+            <th>
+              Email
+            </th>
+
+            <th>
+              Phone
+            </th>
+
+            <th>
+              Address
+            </th>
+
+            <th>
+              Orders
+            </th>
+
+            <th>
+              Joined
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          ${
+            DB.users
+              .map(
+                (u,i) => `
+
+                  <tr>
+
+                    <td>
+                      ${i+1}
+                    </td>
+
+                    <td>
+
+                      <strong>
+                        ${u.firstName}
+                        ${u.lastName || ''}
+                      </strong>
+
+                    </td>
+
+                    <td>
+                      ${u.email}
+                    </td>
+
+                    <td>
+                      ${u.phone || '—'}
+                    </td>
+
+                    <td
+                      style="
+                        max-width:200px;
+                        white-space:nowrap;
+                        overflow:hidden;
+                        text-overflow:ellipsis
+                      "
+                    >
+                      ${u.address || '—'}
+                    </td>
+
+                    <td>
+
+                      ${
+                        DB.orders.filter(
+                          o =>
+                            o.userId ===
+                            u.id
+                        ).length
+                      }
+
+                    </td>
+
+                    <td>
+
+                      ${
+                        u.createdAt
+                        ? new Date(
+                            u.createdAt
+                          ).toLocaleDateString()
+                        : '—'
+                      }
+
+                    </td>
+
+                  </tr>
+
+                `
+              )
+              .join('')
+
+            ||
+
+            `
+              <tr>
+
+                <td
+                  colspan="7"
+                  style="
+                    text-align:center;
+                    color:var(--text-muted)
+                  "
+                >
+                  No customers yet
+                </td>
+
+              </tr>
+            `
+          }
+
         </tbody>
+
       </table>
-    </div>`;
+
+    </div>
+
+  `;
+
 }
 
-function updateOrderStatus(orderId, status){
-  const o=DB.orders.find(o=>o.id===orderId);
-  if(o){ o.status=status; save('orders'); showToast(`Order ${orderId} → ${status}`,'success'); }
+function updateOrderStatus(
+  orderId,
+  status
+){
+
+  const o =
+    DB.orders.find(
+      o =>
+        o.id === orderId
+    );
+
+  if(o){
+
+    o.status =
+      status;
+
+    save('orders');
+
+    showToast(
+      `Order ${orderId} → ${status}`,
+      'success'
+    );
+
+  }
+
 }
 
 function deleteMenuItem(id){
-  if(!confirm('Delete this item?')) return;
-  DB.menuItems=DB.menuItems.filter(i=>i.id!==id); save('menuItems');
-  renderAdmin('menu-mgmt'); showToast('Item deleted','success');
+
+  if(
+    !confirm(
+      'Delete this item?'
+    )
+  ){
+
+    return;
+
+  }
+
+  DB.menuItems =
+    DB.menuItems.filter(
+      i => i.id !== id
+    );
+
+  save('menuItems');
+
+  renderAdmin(
+    'menu-mgmt'
+  );
+
+  showToast(
+    'Item deleted',
+    'success'
+  );
+
 }
 
 function openAddItemModal(){
-  editingItemId=null;
-  document.getElementById('modal-title').textContent='Add Menu Item';
-  document.getElementById('modal-body').innerHTML=itemForm({});
+
+  editingItemId =
+    null;
+
+  document
+    .getElementById(
+      'modal-title'
+    )
+    .textContent =
+    'Add Menu Item';
+
+  document
+    .getElementById(
+      'modal-body'
+    )
+    .innerHTML =
+    itemForm({});
+
   openModal();
+
 }
 
 function openEditItemModal(id){
-  const item=DB.menuItems.find(i=>i.id===id);
+
+  const item =
+    DB.menuItems.find(
+      i =>
+        i.id === id
+    );
+
   if(!item) return;
-  editingItemId=id;
-  document.getElementById('modal-title').textContent='Edit Menu Item';
-  document.getElementById('modal-body').innerHTML=itemForm(item);
+
+  editingItemId =
+    id;
+
+  document
+    .getElementById(
+      'modal-title'
+    )
+    .textContent =
+    'Edit Menu Item';
+
+  document
+    .getElementById(
+      'modal-body'
+    )
+    .innerHTML =
+    itemForm(item);
+
   openModal();
+
 }
 
 function itemForm(item={}){
+
   return `
+
     <div class="form-row">
-      <div class="form-group"><label>Item Name</label><input id="mf-name" value="${item.name||''}" placeholder="Butter Chicken" /></div>
-      <div class="form-group"><label>Emoji</label><input id="mf-emoji" value="${item.emoji||'🍽️'}" placeholder="🍛" /></div>
-    </div>
-    <div class="form-row">
+
       <div class="form-group">
-        <label>Category</label>
-        <select id="mf-cat">
-          ${['Starters','Main Course','South Indian','Chinese','Continental','Street Food','Desserts','Beverages'].map(c=>`<option${c===item.category?' selected':''}>${c}</option>`).join('')}
-        </select>
+
+        <label>
+          Item Name
+        </label>
+
+        <input
+          id="mf-name"
+          value="${item.name || ''}"
+          placeholder="Butter Chicken"
+        />
+
       </div>
-      <div class="form-group"><label>Price (₹)</label><input type="number" id="mf-price" value="${item.price||''}" placeholder="250" /></div>
+
+      <div class="form-group">
+
+        <label>
+          Emoji
+        </label>
+
+        <input
+          id="mf-emoji"
+          value="${item.emoji || '🍽️'}"
+          placeholder="🍛"
+        />
+
+      </div>
+
     </div>
+
+    <div class="form-row">
+
+      <div class="form-group">
+
+        <label>
+          Category
+        </label>
+
+        <select id="mf-cat">
+
+          ${
+            [
+              'Starters',
+              'Main Course',
+              'South Indian',
+              'Chinese',
+              'Continental',
+              'Street Food',
+              'Desserts',
+              'Beverages'
+            ]
+            .map(
+              c =>
+                `<option
+                  ${c===item.category?'selected':''}
+                >
+                  ${c}
+                </option>`
+            )
+            .join('')
+          }
+
+        </select>
+
+      </div>
+
+      <div class="form-group">
+
+        <label>
+          Price (₹)
+        </label>
+
+        <input
+          type="number"
+          id="mf-price"
+          value="${item.price || ''}"
+          placeholder="250"
+        />
+
+      </div>
+
+    </div>
+
     <div class="form-group">
-      <label>Type</label>
+
+      <label>
+        Type
+      </label>
+
       <select id="mf-badge">
-        <option value="veg"${item.badge==='veg'?' selected':''}>Vegetarian</option>
-        <option value="nonveg"${item.badge==='nonveg'?' selected':''}>Non-Vegetarian</option>
-        <option value="special"${item.badge==='special'?' selected':''}>Chef Special</option>
+
+        <option
+          value="veg"
+          ${item.badge==='veg'?'selected':''}
+        >
+          Vegetarian
+        </option>
+
+        <option
+          value="nonveg"
+          ${item.badge==='nonveg'?'selected':''}
+        >
+          Non-Vegetarian
+        </option>
+
+        <option
+          value="special"
+          ${item.badge==='special'?'selected':''}
+        >
+          Chef Special
+        </option>
+
       </select>
+
     </div>
-    <div class="form-group"><label>Description</label><textarea id="mf-desc" rows="3" placeholder="Short tasty description...">${item.desc||''}</textarea></div>
-    <div class="form-group" style="display:flex;align-items:center;gap:.75rem">
-      <input type="checkbox" id="mf-popular" ${item.popular?'checked':''} style="width:auto" />
-      <label for="mf-popular" style="margin:0">Mark as Popular</label>
+
+    <div class="form-group">
+
+      <label>
+        Description
+      </label>
+
+      <textarea
+        id="mf-desc"
+        rows="3"
+        placeholder="Short tasty description..."
+      >${item.desc || ''}</textarea>
+
     </div>
-    <button class="form-submit" onclick="saveMenuItem()">Save Item</button>`;
+
+    <div
+      class="form-group"
+      style="
+        display:flex;
+        align-items:center;
+        gap:.75rem
+      "
+    >
+
+      <input
+        type="checkbox"
+        id="mf-popular"
+        ${item.popular?'checked':''}
+        style="width:auto"
+      />
+
+      <label
+        for="mf-popular"
+        style="margin:0"
+      >
+        Mark as Popular
+      </label>
+
+    </div>
+
+    <button
+      class="form-submit"
+      onclick="saveMenuItem()"
+    >
+      Save Item
+    </button>
+
+  `;
+
 }
 
 function saveMenuItem(){
-  const name=document.getElementById('mf-name').value.trim();
-  const emoji=document.getElementById('mf-emoji').value.trim();
-  const cat=document.getElementById('mf-cat').value;
-  const price=parseInt(document.getElementById('mf-price').value);
-  const badge=document.getElementById('mf-badge').value;
-  const desc=document.getElementById('mf-desc').value.trim();
-  const popular=document.getElementById('mf-popular').checked;
-  if(!name||!price){showToast('Name and price are required','error');return;}
-  if(editingItemId){
-    const idx=DB.menuItems.findIndex(i=>i.id===editingItemId);
-    if(idx>-1) DB.menuItems[idx]={...DB.menuItems[idx],name,emoji,category:cat,price,badge,desc,popular};
-  } else {
-    DB.menuItems.push({id:Date.now(),name,emoji,category:cat,price,badge,desc,popular});
+
+  const name =
+    document
+      .getElementById(
+        'mf-name'
+      )
+      .value
+      .trim();
+
+  const emoji =
+    document
+      .getElementById(
+        'mf-emoji'
+      )
+      .value
+      .trim();
+
+  const cat =
+    document.getElementById(
+      'mf-cat'
+    ).value;
+
+  const price =
+    parseInt(
+      document
+        .getElementById(
+          'mf-price'
+        )
+        .value
+    );
+
+  const badge =
+    document.getElementById(
+      'mf-badge'
+    ).value;
+
+  const desc =
+    document
+      .getElementById(
+        'mf-desc'
+      )
+      .value
+      .trim();
+
+  const popular =
+    document
+      .getElementById(
+        'mf-popular'
+      )
+      .checked;
+
+  if(!name || !price){
+
+    showToast(
+      'Name and price are required',
+      'error'
+    );
+
+    return;
+
   }
+
+  if(editingItemId){
+
+    const idx =
+      DB.menuItems.findIndex(
+        i =>
+          i.id ===
+          editingItemId
+      );
+
+    if(idx > -1){
+
+      DB.menuItems[idx] = {
+
+        ...DB.menuItems[idx],
+
+        name,
+
+        emoji,
+
+        category:cat,
+
+        price,
+
+        badge,
+
+        desc,
+
+        popular
+
+      };
+
+    }
+
+  }else{
+
+    DB.menuItems.push({
+
+      id:Date.now(),
+
+      name,
+
+      emoji,
+
+      category:cat,
+
+      price,
+
+      badge,
+
+      desc,
+
+      popular
+
+    });
+
+  }
+
   save('menuItems');
+
   closeModal();
-  renderAdmin('menu-mgmt');
-  showToast(editingItemId?'Item updated ✅':'Item added ✅','success');
+
+  renderAdmin(
+    'menu-mgmt'
+  );
+
+  showToast(
+    editingItemId
+      ? 'Item updated ✅'
+      : 'Item added ✅',
+    'success'
+  );
+
 }
 
-/* ══════════════════════════════════════════════
-   MODAL HELPERS
-══════════════════════════════════════════════ */
-function openModal(){ document.getElementById('modal-overlay').classList.add('open') }
-function closeModal(){ document.getElementById('modal-overlay').classList.remove('open') }
+/* MODAL */
 
-/* ══════════════════════════════════════════════
-   TOAST
-══════════════════════════════════════════════ */
-function showToast(msg, type='info'){
-  const c=document.getElementById('toast-container');
-  const t=document.createElement('div');
-  t.className=`toast ${type}`;
-  t.innerHTML=(type==='success'?'✅':type==='error'?'❌':'ℹ️')+` ${msg}`;
+function openModal(){
+
+  document
+    .getElementById(
+      'modal-overlay'
+    )
+    .classList.add(
+      'open'
+    );
+
+}
+
+function closeModal(){
+
+  document
+    .getElementById(
+      'modal-overlay'
+    )
+    .classList.remove(
+      'open'
+    );
+
+}
+
+/* TOAST */
+
+function showToast(
+  msg,
+  type='info'
+){
+
+  const c =
+    document.getElementById(
+      'toast-container'
+    );
+
+  const t =
+    document.createElement(
+      'div'
+    );
+
+  t.className =
+    `toast ${type}`;
+
+  t.innerHTML =
+    (
+      type === 'success'
+        ? '✅'
+        : type === 'error'
+          ? '❌'
+          : 'ℹ️'
+    ) +
+    ` ${msg}`;
+
   c.appendChild(t);
-  setTimeout(()=>t.remove(),3200);
+
+  setTimeout(
+    () => t.remove(),
+    3200
+  );
+
 }
 
-/* ══════════════════════════════════════════════
-   FORM HELPERS
-══════════════════════════════════════════════ */
-function setError(id,msg){ const el=document.getElementById('err-'+id); if(el) el.textContent=msg; }
-function clearErrors(ids){ ids.forEach(id=>setError(id,'')); }
-function alertHTML(type,msg){ return `<div class="alert alert-${type}">${msg}</div>`; }
+/* FORM HELPERS */
 
-/* ══════════════════════════════════════════════
-   INIT
-══════════════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded',()=>{
-  updateNav();
-  updateCartBadge();
-  renderHomePopular();
-  initFloatIcons();
-  // Auto-populate menu if not saved
-  if(!localStorage.getItem('ff_menu')) save('menuItems');
-});
+function setError(
+  id,
+  msg
+){
+
+  const el =
+    document.getElementById(
+      'err-' + id
+    );
+
+  if(el){
+
+    el.textContent =
+      msg;
+
+  }
+
+}
+
+function clearErrors(ids){
+
+  ids.forEach(
+    id =>
+      setError(
+        id,
+        ''
+      )
+  );
+
+}
+
+function alertHTML(
+  type,
+  msg
+){
+
+  return `
+    <div
+      class="alert alert-${type}"
+    >
+      ${msg}
+    </div>
+  `;
+
+}
+
+/* INIT */
+
+document.addEventListener(
+  'DOMContentLoaded',
+  () => {
+
+    updateNav();
+
+    updateCartBadge();
+
+    renderHomePopular();
+
+    initFloatIcons();
+
+    if(
+      !localStorage.getItem(
+        'ff_menu'
+      )
+    ){
+
+      save('menuItems');
+
+    }
+
+  }
+);
+
 </script>
+
 </body>
 </html>
